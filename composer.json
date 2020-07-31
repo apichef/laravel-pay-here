@@ -1,0 +1,60 @@
+{
+    "name": "apichef/laravel-pay-here",
+    "type": "library",
+    "description": "Laravel PayHere provides an expressive, fluent interface to PayHere’s billing services.",
+    "keywords": [
+        "apichef",
+        "laravel-pay-here"
+    ],
+    "homepage": "https://github.com/apichef/laravel-pay-here",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Milroy E. Fraser",
+            "email": "milroy@outlook.com",
+            "homepage": "https://github.com/milroyfraser",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^9.0",
+        "psalm/plugin-laravel": "^1.2",
+        "vimeo/psalm": "^3.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Apichef\\PayHere\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Apichef\\PayHere\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Apichef\\PayHere\\PayHereServiceProvider"
+            ],
+            "aliases": {
+                "PayHere": "Apichef\\PayHere\\PayHereFacade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
