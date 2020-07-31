@@ -17,7 +17,10 @@
         }
     ],
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "apichef/laravel-obfuscate": "^0.0.5",
+        "illuminate/database": "^5.8|^6.0|^7.0",
+        "illuminate/support": "^5.8|^6.0|^7.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
@@ -28,12 +31,16 @@
     },
     "autoload": {
         "psr-4": {
-            "Apichef\\PayHere\\": "src"
-        }
+            "ApiChef\\PayHere\\": "src"
+        },
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Apichef\\PayHere\\Tests\\": "tests"
+            "ApiChef\\PayHere\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -48,11 +55,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Apichef\\PayHere\\PayHereServiceProvider"
-            ],
-            "aliases": {
-                "PayHere": "Apichef\\PayHere\\PayHereFacade"
-            }
+                "ApiChef\\PayHere\\PayHereServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",
