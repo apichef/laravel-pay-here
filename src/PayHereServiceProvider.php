@@ -33,8 +33,7 @@ class PayHereServiceProvider extends ServiceProvider
 
     private function registerRoutes()
     {
-        Route::namespace('ApiChef\PayHere\Http\Controllers')
-            ->middleware(config('pay-here.middleware_group'))
+        Route::middleware(config('pay-here.middleware_group'))
             ->as('pay-here.')
             ->group(function () {
                 Route::post('/notify', PaymentNotificationController::class)->name('notify');
