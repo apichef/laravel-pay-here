@@ -26,6 +26,7 @@ return [
     | domains/apps.
     |
     */
+
     'credentials' => [
         'merchant_id' => env('PAY_HERE_MERCHANT_ID'),
         'merchant_secret' => env('PAY_HERE_MERCHANT_SECRET'),

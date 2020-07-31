@@ -32,11 +32,7 @@
     "autoload": {
         "psr-4": {
             "ApiChef\\PayHere\\": "src"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Apichef PayHere provides an expressive, fluent interface to PayHere’s billing services.
+ApiChef PayHere provides an expressive, fluent interface to PayHere’s billing services.
 
 ## Installation
 
@@ -103,7 +103,7 @@ If you discover any security related issues, please email freek@spatie.be instea
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Milroy E. Fraser](https://github.com/milroyfraser)
 - [All Contributors](../../contributors)
 
 ## License
