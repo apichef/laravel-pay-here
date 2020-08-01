@@ -11,7 +11,7 @@ class Fields extends Component
 
     public string $merchantId;
 
-    private string $itemDescription;
+    public string $itemDescription;
 
     public string $successUrl;
 
