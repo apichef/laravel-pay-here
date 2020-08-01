@@ -8,13 +8,22 @@ use Illuminate\Support\Facades\Http;
 
 class PayHere
 {
+    const BASE_URL_PRODUCTION = 'https://www.payhere.lk/';
+    const BASE_URL_SANDBOX = 'https://sandbox.payhere.lk/';
+    const URI_GENERATE_TOKEN = 'merchant/v1/oauth/token';
+    const URI_RETRIEVAL_ORDER_DETAIL = 'merchant/v1/payment/search';
+
     private $accessToken = null;
 
     private function authenticate(): self
     {
+        $appId = config('pay-here.business_app_credentials.id');
+        $appSecret = config('pay-here.business_app_credentials.secret');
+        $token = base64_encode("{$appId}:{$appSecret}");
+
         $response = Http::withHeaders([
-            'Authorization' => 'Basic '.base64_encode(config('pay-here.business_app_credentials.id').':'.config('pay-here.business_app_credentials.secret')),
-        ])->post($this->getUrl('merchant/v1/oauth/token'), [
+            'Authorization' => "Basic {$token}",
+        ])->asForm()->post($this->getUrl(self::URI_GENERATE_TOKEN), [
             'grant_type' => 'client_credentials',
         ]);
 
@@ -29,21 +38,27 @@ class PayHere
 
     private function getUrl(string $uri)
     {
-        $base = App::environment() === 'production' ? 'https://www.payhere.lk/' : 'https://sandbox.payhere.lk/';
+        if (App::environment() === 'production') {
+            return self::BASE_URL_PRODUCTION . $uri;
+        }
 
-        return $base.$uri;
+        return self::BASE_URL_SANDBOX.$uri;
     }
 
-    public function getOrderDetails(string $orderId)
+    public function getOrderDetails(string $orderId): OrderDetails
     {
         if ($this->accessToken === null) {
             $this->authenticate();
         }
 
-        return Http::withHeaders([
-            'Authorization' => 'Bearer '.$this->accessToken
-        ])->asJson()->get($this->getUrl('merchant/v1/payment/search'), [
-            'order_id' => $orderId
+        $data = Http::withHeaders([
+            'Authorization' => "Bearer {$this->accessToken}",
+        ])
+        ->asJson()
+        ->get($this->getUrl(self::URI_RETRIEVAL_ORDER_DETAIL), [
+            'order_id' => $orderId,
         ])->object();
+
+        return new OrderDetails($data->status, $data->msg, $data->data);
     }
 }

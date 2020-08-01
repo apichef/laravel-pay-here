@@ -2,10 +2,11 @@
 
 namespace ApiChef\PayHere\Support\Facades;
 
+use Apichef\PayHere\OrderDetails;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static mixed getOrderDetails(string $orderId)
+ * @method static OrderDetails getOrderDetails(string $orderId)
  *
  * @see \ApiChef\PayHere\PayHere
  */
