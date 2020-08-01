@@ -5,7 +5,7 @@ namespace ApiChef\PayHere\View\Components;
 use ApiChef\PayHere\Payment;
 use Illuminate\View\Component;
 
-class PayHereFields extends Component
+class Fields extends Component
 {
     public Payment $payment;
 
@@ -28,6 +28,6 @@ class PayHereFields extends Component
 
     public function render()
     {
-        return view('pay-here.fields');
+        return view('pay-here::fields');
     }
 }
