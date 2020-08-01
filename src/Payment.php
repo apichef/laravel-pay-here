@@ -45,8 +45,8 @@ class Payment extends Model
 
     public function isTokenValid($token): bool
     {
-        $secret = Str::upper(md5(config('pay-here.credentials.merchant_secret')));
-        $merchantId = config('pay-here.credentials.merchant_id');
+        $secret = Str::upper(md5(config('pay-here.merchant_credentials.secret')));
+        $merchantId = config('pay-here.merchant_credentials.id');
 
         return Str::upper(md5("{$merchantId}{$this->id}{$this->amount}{$this->currency}{$secret}")) === $token;
     }

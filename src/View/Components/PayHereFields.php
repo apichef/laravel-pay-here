@@ -20,7 +20,7 @@ class PayHereFields extends Component
     public function __construct(Payment $payment, string $itemDescription, string $successUrl, string $cancelUrl)
     {
         $this->payment = $payment;
-        $this->merchantId = config('pay-here.credentials.merchant_id');
+        $this->merchantId = config('pay-here.merchant_credentials.id');
         $this->itemDescription = $itemDescription;
         $this->successUrl = $successUrl;
         $this->cancelUrl = $cancelUrl;

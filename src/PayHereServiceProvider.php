@@ -3,6 +3,7 @@
 namespace ApiChef\PayHere;
 
 use ApiChef\PayHere\Http\Controllers\PaymentNotificationController;
+use ApiChef\PayHere\View\Components\PayHereFields;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -11,6 +12,10 @@ class PayHereServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerRoutes();
+
+        $this->loadViewComponentsAs('pay-here', [
+            PayHereFields::class,
+        ]);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'pay-here');
 
@@ -29,6 +34,10 @@ class PayHereServiceProvider extends ServiceProvider
             __DIR__.'/../config/pay-here.php',
             'pay-here'
         );
+
+        $this->app->bind('pay-here', function ($app) {
+            return $app->make(PayHere::class);
+        });
     }
 
     private function registerRoutes()
