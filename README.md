@@ -57,10 +57,33 @@ return [
     | To obtain a merchant secret, you need to add a domain to allowed
     | domains/apps.
     |
+    | https://support.payhere.lk/api-&-mobile-sdk/payhere-checkout#prerequisites
+    |
     */
-    'credentials' => [
-        'merchant_id' => env('PAY_HERE_MERCHANT_ID'),
-        'merchant_secret' => env('PAY_HERE_MERCHANT_SECRET'),
+
+    'merchant_credentials' => [
+        'id' => env('PAY_HERE_MERCHANT_ID'),
+        'secret' => env('PAY_HERE_MERCHANT_SECRET'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Business App Credentials
+    |--------------------------------------------------------------------------
+    |
+    | You must create a business application to call PayHere services. Visit
+    | the link bellow and follow the instruction to obtain business app id
+    | and secret.
+    |
+    | NOTE: Tick the permission 'Payment Retrieval API'
+    |
+    | https://support.payhere.lk/api-&-mobile-sdk/payhere-retrieval#1-create-a-business-app
+    |
+    */
+
+    'business_app_credentials' => [
+        'id' => env('PAY_HERE_BUSINESS_APP_ID'),
+        'secret' => env('PAY_HERE_BUSINESS_APP_SECRET'),
     ],
 
     /*

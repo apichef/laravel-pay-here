@@ -52,7 +52,10 @@
         "laravel": {
             "providers": [
                 "ApiChef\\PayHere\\PayHereServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "PayHere": "ApiChef\\PayHere\\Support\\Facades\\PayHere"
+            }
         }
     },
     "minimum-stability": "dev",
