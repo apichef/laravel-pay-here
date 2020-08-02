@@ -20,7 +20,7 @@ class PayHere
     const CURRENCY_EUR = 'EUR';
     const CURRENCY_AUD = 'AUD';
 
-    private ?string $accessToken = null;
+    private $accessToken = null;
 
     private function authenticate(): self
     {
