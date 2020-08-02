@@ -12,6 +12,7 @@ class CheckoutForm extends Component
     public string $merchantId;
     public string $formAction;
     public string $formClass;
+    public string $sendHash;
 
     public function __construct(Payment $payment, string $formClass = '')
     {
@@ -19,6 +20,7 @@ class CheckoutForm extends Component
         $this->formAction = PayHere::checkoutUrl();
         $this->formClass = $formClass;
         $this->payment = $payment;
+        $this->sendHash = config('pay-here.security.send_hash');
     }
 
     public function render()

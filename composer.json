@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": "^7.4",
-        "apichef/laravel-obfuscate": "^0.0.5",
+        "apichef/laravel-obfuscate": "^1.0.0",
         "illuminate/database": "^5.8|^6.0|^7.0",
         "illuminate/support": "^5.8|^6.0|^7.0"
     },

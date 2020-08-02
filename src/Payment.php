@@ -54,7 +54,7 @@ class Payment extends Model
         $secret = Str::upper(md5(config('pay-here.merchant_credentials.secret')));
         $merchantId = config('pay-here.merchant_credentials.id');
 
-        return Str::upper(md5("{$merchantId}{$this->id}{$this->amount}{$this->currency}{$secret}"));
+        return Str::upper(md5("{$merchantId}{$this->getRouteKey()}{$this->amount}{$this->currency}{$secret}"));
     }
 
     public static function findByOrderId($orderId): self

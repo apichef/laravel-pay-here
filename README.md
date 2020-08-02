@@ -126,6 +126,21 @@ return [
    */
 
    'middleware_group' => env('PAY_HERE_MIDDLEWARE_GROUP', 'web'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Extra Security
+    |--------------------------------------------------------------------------
+    |
+    | If you need to add extra security when initializing the payment you can 
+    | send hash parameter. This is being handled by the PayHere package, so you
+    | don't have to worry about it.  
+    |
+    */
+
+    'security' => [
+        'send_hash' => env('PAY_HERE_SEND_HASH', true),
+    ]
 ];
 ```
 
