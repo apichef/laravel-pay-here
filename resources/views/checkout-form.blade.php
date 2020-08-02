@@ -4,8 +4,10 @@
     <input type="hidden" name="cancel_url" value="{{ route('pay-here.cancel') }}">
     <input type="hidden" name="notify_url" value="{{ route('pay-here.notify') }}">
     <input type="hidden" name="order_id" value="{{ $payment->getRouteKey() }}">
-    <input type="hidden" name="hash" value="{{ $payment->getHash() }}">
     <input type="hidden" name="amount" value="{{ $payment->amount }}">
     <input type="hidden" name="currency" value="{{ $payment->currency }}">
+    @if($sendHash)
+        <input type="hidden" name="hash" value="{{ $payment->getHash() }}">
+    @endif
     {{ $slot }}
 </form>
