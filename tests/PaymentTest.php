@@ -177,4 +177,12 @@ class PaymentTest extends TestCase
             return $request->url() === "sandbox.payhere.lk/merchant/v1/payment/search?order_id={$payment->getRouteKey()}";
         });
     }
+
+    public function test_findByOrderId()
+    {
+        /** @var Payment $payment */
+        $payment = factory(Payment::class)->create();
+
+        $this->assertEquals($payment->id, Payment::findByOrderId($payment->getRouteKey())->id);
+    }
 }
