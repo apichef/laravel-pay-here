@@ -51,10 +51,10 @@ class PayHereServiceProvider extends ServiceProvider
                 Route::post('/notify', PaymentNotificationController::class)
                     ->name('notify');
 
-                Route::post('/success', SuccessRedirectController::class)
+                Route::get('/success', SuccessRedirectController::class)
                     ->name('success');
 
-                Route::post('/cancel', CancelRedirectController::class)
+                Route::get('/cancel', CancelRedirectController::class)
                     ->name('cancel');
             });
     }
