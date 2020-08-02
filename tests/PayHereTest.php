@@ -23,7 +23,7 @@ class PayHereTest extends TestCase
                 'status' => 1,
                 'msg' => 'Payments with order_id:LP0000_2020-02-02',
                 'data' => [
-                    'foo' => 'bar'
+                    'foo' => 'bar',
                 ],
             ]),
         ]);
@@ -34,11 +34,11 @@ class PayHereTest extends TestCase
         $this->assertEquals(1, $orderDetails->status);
         $this->assertEquals('Payments with order_id:LP0000_2020-02-02', $orderDetails->message);
         $this->assertEquals([
-            'foo' => 'bar'
+            'foo' => 'bar',
         ], $orderDetails->data);
 
         Http::assertSent(function ($request) {
-            return $request->hasHeader('Authorization', 'Basic '.base64_encode("app_id:app_secret")) &&
+            return $request->hasHeader('Authorization', 'Basic '.base64_encode('app_id:app_secret')) &&
                 $request->url() == 'https://sandbox.payhere.lk/merchant/v1/oauth/token' &&
                 $request['grant_type'] == 'client_credentials';
         });
