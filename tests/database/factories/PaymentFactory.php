@@ -39,5 +39,5 @@ $factory->state(Payment::class, 'chargedback', [
 
 $factory->state(Payment::class, 'invalid', [
     'status' => 0,
-    'validated' => false
+    'validated' => false,
 ]);
