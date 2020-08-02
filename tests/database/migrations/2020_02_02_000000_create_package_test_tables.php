@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:ignoreFile
 
 use Illuminate\Database\Migrations\Migration;
