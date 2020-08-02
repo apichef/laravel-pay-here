@@ -2,7 +2,7 @@
 
 namespace ApiChef\PayHere\Support\Facades;
 
-use Apichef\PayHere\OrderDetails;
+use ApiChef\PayHere\OrderDetails;
 use Illuminate\Support\Facades\Facade;
 
 /**

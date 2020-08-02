@@ -1,6 +1,6 @@
 <?php
 
-namespace Apichef\PayHere\Http\Requests;
+namespace ApiChef\PayHere\Http\Requests;
 
 use ApiChef\PayHere\Rules\Payable;
 use ApiChef\PayHere\Support\Facades\PayHere;

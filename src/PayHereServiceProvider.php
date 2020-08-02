@@ -46,6 +46,7 @@ class PayHereServiceProvider extends ServiceProvider
     private function registerRoutes()
     {
         Route::middleware(config('pay-here.middleware_group'))
+            ->prefix('pay-here')
             ->as('pay-here.')
             ->group(function () {
                 Route::post('/checkout', CheckoutController::class)

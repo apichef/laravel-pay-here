@@ -2,7 +2,7 @@
 
 namespace ApiChef\PayHere\Http\Controllers;
 
-use Apichef\PayHere\Http\Requests\CheckoutRequest;
+use ApiChef\PayHere\Http\Requests\CheckoutRequest;
 use ApiChef\PayHere\Payment;
 use ApiChef\PayHere\Support\Facades\PayHere;
 use Illuminate\Routing\Controller;

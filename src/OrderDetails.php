@@ -1,6 +1,6 @@
 <?php
 
-namespace Apichef\PayHere;
+namespace ApiChef\PayHere;
 
 class OrderDetails
 {

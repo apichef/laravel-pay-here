@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Apichef\PayHere\Tests;
+namespace ApiChef\PayHere\Tests;
 
 class ExampleTest extends \PHPUnit\Framework\TestCase
 {
