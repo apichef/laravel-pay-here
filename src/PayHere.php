@@ -71,7 +71,7 @@ class PayHere
 
     public function checkoutUrl()
     {
-        return $this->getUrl('/pay/checkout');
+        return $this->getUrl('pay/checkout');
     }
 
     public function allowedCurrencies()
