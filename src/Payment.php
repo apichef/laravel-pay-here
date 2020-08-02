@@ -4,7 +4,7 @@ namespace ApiChef\PayHere;
 
 use ApiChef\Obfuscate\Obfuscatable;
 use ApiChef\Obfuscate\Support\Facades\Obfuscate;
-use ApiChef\PayHere\Support\Facades\PayHere;
+use ApiChef\PayHere\Support\Facades\PayHere as PayHereFacades;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -65,7 +65,7 @@ class Payment extends Model
 
     public function refreshStatus(): self
     {
-        $this->status = PayHere::getOrderDetails($this->getRouteKey())->status;
+        $this->status = PayHereFacades::getOrderDetails($this->getRouteKey())->status;
         $this->save();
 
         return $this;

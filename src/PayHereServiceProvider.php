@@ -3,10 +3,9 @@
 namespace ApiChef\PayHere;
 
 use ApiChef\PayHere\Http\Controllers\CancelRedirectController;
-use ApiChef\PayHere\Http\Controllers\CheckoutController;
 use ApiChef\PayHere\Http\Controllers\PaymentNotificationController;
 use ApiChef\PayHere\Http\Controllers\SuccessRedirectController;
-use ApiChef\PayHere\View\Components\PayableField;
+use ApiChef\PayHere\View\Components\CheckoutForm;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +16,7 @@ class PayHereServiceProvider extends ServiceProvider
         $this->registerRoutes();
 
         $this->loadViewComponentsAs('pay-here', [
-            PayableField::class,
+            CheckoutForm::class,
         ]);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'pay-here');
@@ -49,9 +48,6 @@ class PayHereServiceProvider extends ServiceProvider
             ->prefix('pay-here')
             ->as('pay-here.')
             ->group(function () {
-                Route::post('/checkout', CheckoutController::class)
-                    ->name('checkout');
-
                 Route::post('/notify', PaymentNotificationController::class)
                     ->name('notify');
 
