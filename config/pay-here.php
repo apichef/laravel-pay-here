@@ -3,19 +3,6 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | PayHere Database Connection
-    |--------------------------------------------------------------------------
-    |
-    | This is the database connection you want PayHere to use while storing &
-    | reading your payment data. By default PayHere assumes you use your
-    | default connection. However, you can change that to anything you want.
-    |
-    */
-
-    'database_connection' => env('DB_CONNECTION'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Merchant Credentials
     |--------------------------------------------------------------------------
     |
@@ -53,6 +40,48 @@ return [
         'id' => env('PAY_HERE_BUSINESS_APP_ID'),
         'secret' => env('PAY_HERE_BUSINESS_APP_SECRET'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Response Route Names
+    |--------------------------------------------------------------------------
+    |
+    | This is the where you can config which route to redirect on checkout
+    | success or canceled.
+    |
+    | PayHere package will call the route with payment id, so you can bind the
+    | payment model to the route.
+    |
+    | e.g.
+    | Route::get('payment-success/{payment}', 'PaymentController@success')
+    |   ->name('payment_success');
+    |
+    | Route::get('payment_canceled/{payment}', 'PaymentController@cancel')
+    |   ->name('payment_canceled');
+    |
+    | NOTE: Updating the payment status is being handled by the PayHere package,
+    | you will have to perform the necessary changes to your data, such as
+    | updating the inventory, enrolling to the sold item.
+    |
+    */
+
+    'routes_name' => [
+        'payment_success' => 'payment_success',
+        'payment_canceled' => 'payment_canceled',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | PayHere Database Connection
+    |--------------------------------------------------------------------------
+    |
+    | This is the database connection you want PayHere to use while storing &
+    | reading your payment data. By default PayHere assumes you use your
+    | default connection. However, you can change that to anything you want.
+    |
+    */
+
+    'database_connection' => env('DB_CONNECTION'),
 
     /*
     |--------------------------------------------------------------------------

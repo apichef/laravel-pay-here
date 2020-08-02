@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static OrderDetails getOrderDetails(string $orderId)
+ * @method static string checkoutUrl()
+ * @method static array allowedCurrencies()
  *
  * @see \ApiChef\PayHere\PayHere
  */

@@ -6,13 +6,13 @@ use ApiChef\PayHere\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class PaymentNotificationController extends Controller
+class CancelRedirectController extends Controller
 {
     public function __invoke(Request $request)
     {
         $payment = Payment::findByOrderId($request->get('order_id'));
-        $payment->status = $request->get('status_code');
-        $payment->validated = $payment->isTokenValid($request->get('md5sig'));
-        $payment->save();
+
+        return redirect()
+            ->route(config('pay-here.routes_name.payment_canceled'), $payment->refreshStatus());
     }
 }

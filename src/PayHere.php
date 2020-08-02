@@ -10,8 +10,15 @@ class PayHere
 {
     const BASE_URL_PRODUCTION = 'https://www.payhere.lk/';
     const BASE_URL_SANDBOX = 'https://sandbox.payhere.lk/';
+
     const URI_GENERATE_TOKEN = 'merchant/v1/oauth/token';
     const URI_RETRIEVAL_ORDER_DETAIL = 'merchant/v1/payment/search';
+
+    const CURRENCY_LKR = 'LKR';
+    const CURRENCY_USD = 'USD';
+    const CURRENCY_GBP = 'GBP';
+    const CURRENCY_EUR = 'EUR';
+    const CURRENCY_AUD = 'AUD';
 
     private $accessToken = null;
 
@@ -60,5 +67,21 @@ class PayHere
         ])->object();
 
         return new OrderDetails($data->status, $data->msg, $data->data);
+    }
+
+    public function checkoutUrl()
+    {
+        return $this->getUrl('/pay/checkout');
+    }
+
+    public function allowedCurrencies()
+    {
+        return [
+            self::CURRENCY_LKR,
+            self::CURRENCY_AUD,
+            self::CURRENCY_EUR,
+            self::CURRENCY_GBP,
+            self::CURRENCY_USD,
+        ];
     }
 }
