@@ -15,7 +15,7 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('amount');
+            $table->float('amount');
             $table->tinyInteger('status')->default(0);
             $table->string('currency');
             $table->morphs('payable');

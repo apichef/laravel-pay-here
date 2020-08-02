@@ -6,12 +6,13 @@ use ApiChef\PayHere\Http\Controllers\CancelRedirectController;
 use ApiChef\PayHere\Http\Controllers\PaymentNotificationController;
 use ApiChef\PayHere\Http\Controllers\SuccessRedirectController;
 use ApiChef\PayHere\View\Components\CheckoutForm;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class PayHereServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->registerRoutes();
 
@@ -30,19 +31,19 @@ class PayHereServiceProvider extends ServiceProvider
         ], 'migrations');
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../config/pay-here.php',
             'pay-here'
         );
 
-        $this->app->bind('pay-here', function ($app) {
+        $this->app->bind('pay-here', function (Application $app): PayHere {
             return $app->make(PayHere::class);
         });
     }
 
-    private function registerRoutes()
+    private function registerRoutes(): void
     {
         Route::middleware(config('pay-here.middleware_group'))
             ->prefix('pay-here')

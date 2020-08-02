@@ -20,7 +20,7 @@ class PayHere
     const CURRENCY_EUR = 'EUR';
     const CURRENCY_AUD = 'AUD';
 
-    private $accessToken = null;
+    private ?string $accessToken = null;
 
     private function authenticate(): self
     {
@@ -43,7 +43,7 @@ class PayHere
         throw new AuthenticationException("Unable to authenticate PayHere");
     }
 
-    private function getUrl(string $uri)
+    private function getUrl(string $uri): string
     {
         if (App::environment() === 'production') {
             return self::BASE_URL_PRODUCTION . $uri;
@@ -69,12 +69,12 @@ class PayHere
         return new OrderDetails($data->status, $data->msg, $data->data);
     }
 
-    public function checkoutUrl()
+    public function checkoutUrl(): string
     {
         return $this->getUrl('pay/checkout');
     }
 
-    public function allowedCurrencies()
+    public function allowedCurrencies(): array
     {
         return [
             self::CURRENCY_LKR,
