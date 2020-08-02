@@ -4,11 +4,11 @@ namespace ApiChef\PayHere;
 
 class OrderDetails
 {
-    public int $status;
+    public $status;
 
-    public string $message;
+    public $message;
 
-    public array $data;
+    public $data;
 
     public function __construct(int $status, string $message, array $data)
     {

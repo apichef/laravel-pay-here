@@ -72,7 +72,7 @@ class Payment extends Model
 
     public function refreshStatus(): self
     {
-        if ($this->status === 0) {
+        if ($this->status == 0) {
             $this->status = PayHereFacades::getOrderDetails($this->getRouteKey())->status;
             $this->save();
         }

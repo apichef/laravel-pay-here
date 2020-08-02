@@ -9,6 +9,8 @@ use ApiChef\PayHere\PayHere;
 use ApiChef\PayHere\Payment;
 use ApiChef\PayHere\Tests\App\Product;
 use ApiChef\PayHere\Tests\App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PaymentTest extends TestCase
 {
@@ -136,5 +138,43 @@ class PaymentTest extends TestCase
             [-2, false],
             [-3, false],
         ];
+    }
+
+    public function test_refreshStatus()
+    {
+        /** @var Payment $payment */
+        $payment = factory(Payment::class)->state('pending')->create();
+        $this->assertEquals(0, $payment->status);
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            "sandbox.payhere.lk/merchant/v1/payment/search?order_id={$payment->getRouteKey()}" => Http::response([
+                'status' => 1,
+                'msg' => 'Payments with order_id:LP0000_2020-02-02',
+                'data' => [],
+            ]),
+        ]);
+
+        $payment->refreshStatus();
+        $payment->fresh();
+
+        $this->assertEquals(1, $payment->status);
+    }
+
+    public function test_refreshStatus_does_not_call_api_unless_the_status_is_0()
+    {
+        /** @var Payment $payment */
+        $payment = factory(Payment::class)->create();
+        $this->assertEquals(2, $payment->status);
+
+        $payment->refreshStatus();
+        $payment->fresh();
+
+        Http::assertNotSent(function (Request $request) use ($payment) {
+            return $request->url() === "sandbox.payhere.lk/merchant/v1/payment/search?order_id={$payment->getRouteKey()}";
+        });
     }
 }

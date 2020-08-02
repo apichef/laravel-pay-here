@@ -19,6 +19,7 @@
     "require": {
         "php": "^7.2.5",
         "apichef/laravel-obfuscate": "^1.0.0",
+        "guzzlehttp/guzzle": "^7.0",
         "illuminate/database": "^5.8|^6.0|^7.0",
         "illuminate/support": "^5.8|^6.0|^7.0",
         "squizlabs/php_codesniffer": "^3.5"

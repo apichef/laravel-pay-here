@@ -64,9 +64,9 @@ class PayHere
         ->asJson()
         ->get($this->getUrl(self::URI_RETRIEVAL_ORDER_DETAIL), [
             'order_id' => $orderId,
-        ])->object();
+        ])->json();
 
-        return new OrderDetails($data->status, $data->msg, $data->data);
+        return new OrderDetails($data['status'], $data['msg'], $data['data']);
     }
 
     public function checkoutUrl(): string
