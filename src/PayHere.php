@@ -40,13 +40,13 @@ class PayHere
             return $this;
         }
 
-        throw new AuthenticationException("Unable to authenticate PayHere");
+        throw new AuthenticationException('Unable to authenticate PayHere');
     }
 
     private function getUrl(string $uri): string
     {
         if (App::environment() === 'production') {
-            return self::BASE_URL_PRODUCTION . $uri;
+            return self::BASE_URL_PRODUCTION.$uri;
         }
 
         return self::BASE_URL_SANDBOX.$uri;
