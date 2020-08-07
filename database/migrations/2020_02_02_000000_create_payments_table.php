@@ -21,6 +21,7 @@ class CreatePaymentsTable extends Migration
             $table->morphs('payable');
             $table->morphs('payer');
             $table->boolean('validated')->nullable();
+            $table->json('summary')->nullable();
             $table->timestamps();
         });
     }

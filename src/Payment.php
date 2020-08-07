@@ -15,10 +15,18 @@ class Payment extends Model
 {
     use Obfuscatable;
 
+    protected $casts = [
+        'summary' => 'array',
+    ];
+
+    // overrides
+
     public function getConnectionName()
     {
         return config('pay-here.database_connection');
     }
+
+    // relationships
 
     public function payable(): MorphTo
     {
@@ -30,10 +38,43 @@ class Payment extends Model
         return $this->morphTo();
     }
 
+    // accessors
+
     public function getAmountAttribute($value)
     {
         return number_format((float) $value, 2, '.', '');
     }
+
+    public function getHashAttribute(): string
+    {
+        $secret = Str::upper(md5(config('pay-here.merchant_credentials.secret')));
+        $merchantId = config('pay-here.merchant_credentials.id');
+
+        return Str::upper(md5("{$merchantId}{$this->getRouteKey()}{$this->amount}{$this->currency}{$secret}"));
+    }
+
+    // scopes
+
+    public function scopePaidBy(Builder $query, Model $payer): Builder
+    {
+        return $query
+            ->where('payer_type', get_class($payer))
+            ->where('payer_id', $payer->getKey());
+    }
+
+    public function scopePaidFor(Builder $query, Model $payable): Builder
+    {
+        return $query
+            ->where('payable_type', get_class($payable))
+            ->where('payable_id', $payable->getKey());
+    }
+
+    public function scopeSuccess(Builder $query): Builder
+    {
+        return $query->where('status', 2);
+    }
+
+    // helpers
 
     public static function make(Model $item, Model $buyer, float $price, string $currency = PayHere::CURRENCY_LKR): self
     {
@@ -53,7 +94,7 @@ class Payment extends Model
 
     public function isTokenValid(string $token): bool
     {
-        return $this->getHash() === $token;
+        return $this->hash === $token;
     }
 
     public function isPaid(): bool
@@ -61,36 +102,9 @@ class Payment extends Model
         return $this->status > 0;
     }
 
-    public function getHash(): string
-    {
-        $secret = Str::upper(md5(config('pay-here.merchant_credentials.secret')));
-        $merchantId = config('pay-here.merchant_credentials.id');
-
-        return Str::upper(md5("{$merchantId}{$this->getRouteKey()}{$this->amount}{$this->currency}{$secret}"));
-    }
-
     public static function findByOrderId($orderId): self
     {
         return Payment::query()
             ->findOrFail(Obfuscate::decode($orderId));
-    }
-
-    public function scopePaidBy(Builder $query, Model $payer): Builder
-    {
-        return $query
-            ->where('payer_type', get_class($payer))
-            ->where('payer_id', $payer->getKey());
-    }
-
-    public function scopePaidFor(Builder $query, Model $payable): Builder
-    {
-        return $query
-            ->where('payable_type', get_class($payable))
-            ->where('payable_id', $payable->getKey());
-    }
-
-    public function scopeSuccess(Builder $query): Builder
-    {
-        return $query->where('status', 2);
     }
 }
