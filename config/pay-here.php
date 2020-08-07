@@ -3,6 +3,18 @@
 return [
     /*
     |--------------------------------------------------------------------------
+    | Base Url
+    |--------------------------------------------------------------------------
+    |
+    | This is where you can configure PayHere base url, based the application
+    | environment. On production, the value should set to https://payhere.lk/
+    |
+    */
+
+    'base_url' => env('PAY_HERE_BASE_URL', 'https://sandbox.payhere.lk/'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Merchant Credentials
     |--------------------------------------------------------------------------
     |

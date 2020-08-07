@@ -3,14 +3,10 @@
 namespace ApiChef\PayHere;
 
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 
 class PayHere
 {
-    const BASE_URL_PRODUCTION = 'https://www.payhere.lk/';
-    const BASE_URL_SANDBOX = 'https://sandbox.payhere.lk/';
-
     const URI_GENERATE_TOKEN = 'merchant/v1/oauth/token';
     const URI_RETRIEVAL_ORDER_DETAIL = 'merchant/v1/payment/search';
 
@@ -45,11 +41,7 @@ class PayHere
 
     private function getUrl(string $uri): string
     {
-        if (App::environment() === 'production') {
-            return self::BASE_URL_PRODUCTION.$uri;
-        }
-
-        return self::BASE_URL_SANDBOX.$uri;
+        return config('pay-here.base_url').$uri;
     }
 
     public function getOrderDetails(string $orderId): OrderDetails
