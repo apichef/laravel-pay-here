@@ -6,6 +6,6 @@
     <input type="hidden" name="order_id" value="{{ $payment->getRouteKey() }}">
     <input type="hidden" name="amount" value="{{ $payment->amount }}">
     <input type="hidden" name="currency" value="{{ $payment->currency }}">
-    <input type="hidden" name="hash" value="{{ $payment->getHash() }}">
+    <input type="hidden" name="hash" value="{{ $payment->hash }}">
     {{ $slot }}
 </form>
