@@ -92,11 +92,6 @@ class Payment extends Model
         return $payment;
     }
 
-    public function isTokenValid(string $token): bool
-    {
-        return $this->hash === $token;
-    }
-
     public function isPaid(): bool
     {
         return $this->status > 0;
