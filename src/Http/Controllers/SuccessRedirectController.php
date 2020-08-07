@@ -13,6 +13,6 @@ class SuccessRedirectController extends Controller
         $payment = Payment::findByOrderId($request->get('order_id'));
 
         return redirect()
-            ->route(config('pay-here.routes_name.payment_success'), $payment->refreshStatus());
+            ->route(config('pay-here.routes_name.payment_success'), $payment);
     }
 }

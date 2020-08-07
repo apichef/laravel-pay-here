@@ -6,8 +6,6 @@
     <input type="hidden" name="order_id" value="{{ $payment->getRouteKey() }}">
     <input type="hidden" name="amount" value="{{ $payment->amount }}">
     <input type="hidden" name="currency" value="{{ $payment->currency }}">
-    @if($sendHash)
-        <input type="hidden" name="hash" value="{{ $payment->getHash() }}">
-    @endif
+    <input type="hidden" name="hash" value="{{ $payment->getHash() }}">
     {{ $slot }}
 </form>

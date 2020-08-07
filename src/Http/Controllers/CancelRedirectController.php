@@ -13,6 +13,6 @@ class CancelRedirectController extends Controller
         $payment = Payment::findByOrderId($request->get('order_id'));
 
         return redirect()
-            ->route(config('pay-here.routes_name.payment_canceled'), $payment->refreshStatus());
+            ->route(config('pay-here.routes_name.payment_canceled'), $payment);
     }
 }

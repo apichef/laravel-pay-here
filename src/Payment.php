@@ -30,6 +30,11 @@ class Payment extends Model
         return $this->morphTo();
     }
 
+    public function getAmountAttribute($value)
+    {
+        return number_format((float) $value, 2, '.', '');
+    }
+
     public static function make(Model $item, Model $buyer, float $price, string $currency = PayHere::CURRENCY_LKR): self
     {
         if (! in_array($currency, PayHereFacades::allowedCurrencies())) {
@@ -70,16 +75,6 @@ class Payment extends Model
             ->findOrFail(Obfuscate::decode($orderId));
     }
 
-    public function refreshStatus(): self
-    {
-        if ($this->status == 0) {
-            $this->status = PayHereFacades::getOrderDetails($this->getRouteKey())->status;
-            $this->save();
-        }
-
-        return $this;
-    }
-
     public function scopePaidBy(Builder $query, Model $payer): Builder
     {
         return $query
@@ -91,13 +86,11 @@ class Payment extends Model
     {
         return $query
             ->where('payable_type', get_class($payable))
-            ->where('payable_id', $payable->getKey())
-            ->where('status', '>', 0);
+            ->where('payable_id', $payable->getKey());
     }
 
     public function scopeSuccess(Builder $query): Builder
     {
-        return $query
-            ->where('status', '>', 0);
+        return $query->where('status', 2);
     }
 }
