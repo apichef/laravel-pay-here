@@ -12,8 +12,8 @@ class PaymentNotificationController extends Controller
     {
         $payment = Payment::findByOrderId($request->get('order_id'));
         $payment->status = $request->get('status_code');
-        $payment->validated = $request->isValid();
-        $payment->summary = array_merge($request->all(), ['hash' => $payment->hash]);
+        $payment->validated = $request->isValid($payment);
+        $payment->summary = $request->all();
         $payment->save();
     }
 }

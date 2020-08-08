@@ -2,6 +2,7 @@
 
 namespace ApiChef\PayHere\Http\Requests;
 
+use ApiChef\PayHere\Payment;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -24,7 +25,7 @@ class PaymentNotificationRequest extends FormRequest
         ];
     }
 
-    public function isValid(): bool
+    public function isValid(Payment $payment): bool
     {
         $secret = Str::upper(md5(config('pay-here.merchant_credentials.secret')));
         $merchantId = $this->get('merchant_id');
@@ -34,6 +35,8 @@ class PaymentNotificationRequest extends FormRequest
         $statusCode = $this->get('status_code');
         $local_md5sig = Str::upper(md5($merchantId.$orderId.$payhereAmount.$payhereCurrency.$statusCode.$secret));
 
-        return $local_md5sig === $this->get('md5sig');
+        return $local_md5sig === $this->get('md5sig') &&
+            $payhereAmount === $payment->amount &&
+            $payhereCurrency === $payment->currency;
     }
 }
