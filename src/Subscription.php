@@ -7,7 +7,7 @@ use ApiChef\Obfuscate\Support\Facades\Obfuscate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class Payment extends Model
+class Subscription extends Model
 {
     use Obfuscatable;
     use Payable;
@@ -18,7 +18,7 @@ class Payment extends Model
 
     // relationships
 
-    public function payable(): MorphTo
+    public function subscribable(): MorphTo
     {
         return $this->morphTo();
     }
@@ -26,31 +26,30 @@ class Payment extends Model
     // helpers
 
     public static function make(
-        Model $item,
+        Model $subscribable,
         Model $buyer,
+        string $recurrence,
+        string $duration,
         float $price,
         string $currency = PayHere::CURRENCY_LKR
     ): self {
         self::validateCurrency($currency);
 
-        $payment = new self();
-        $payment->amount = $price;
-        $payment->currency = $currency;
-        $payment->payable()->associate($item);
-        $payment->payer()->associate($buyer);
-        $payment->save();
+        $subscription = new self();
+        $subscription->amount = $price;
+        $subscription->currency = $currency;
+        $subscription->recurrence = $recurrence;
+        $subscription->duration = $duration;
+        $subscription->subscribable()->associate($subscribable);
+        $subscription->payer()->associate($buyer);
+        $subscription->save();
 
-        return $payment;
-    }
-
-    public function isPaid(): bool
-    {
-        return $this->status > 0;
+        return $subscription;
     }
 
     public static function findByOrderId($orderId): self
     {
-        return Payment::query()
+        return Subscription::query()
             ->findOrFail(Obfuscate::decode($orderId));
     }
 }
