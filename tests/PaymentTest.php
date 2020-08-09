@@ -168,4 +168,12 @@ class PaymentTest extends TestCase
             [1000.5555, 1000.56],
         ];
     }
+
+    public function test_hash_accessor()
+    {
+        /** @var Payment $payment */
+        $payment = factory(Payment::class)->create();
+
+        $this->assertEquals($payment->hash, "975470FF0B404455A72E7BEA0C313AB7");
+    }
 }
