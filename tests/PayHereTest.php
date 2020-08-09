@@ -53,7 +53,7 @@ class PayHereTest extends TestCase
     public function test_it_throws_exception_when_pay_here_authentication_failed()
     {
         Http::fake([
-            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([], 401)
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([], 401),
         ]);
 
         $this->expectException(AuthenticationException::class);
