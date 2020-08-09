@@ -3,6 +3,7 @@
 namespace ApiChef\PayHere\DTO;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class PaymentDetails
 {
@@ -18,6 +19,7 @@ class PaymentDetails
     public $customer;
     public $amountDetail;
     public $paymentMethod;
+    public $items;
 
     public function __construct(array $data)
     {
@@ -33,6 +35,7 @@ class PaymentDetails
         $this->customer = $this->data['customer'];
         $this->amountDetail = $this->data['amount_detail'];
         $this->paymentMethod = $this->data['payment_method'];
+        $this->items = $this->data['items'];
     }
 
     public function getCustomer(): Customer
@@ -48,5 +51,12 @@ class PaymentDetails
     public function getPaymentMethod(): PaymentMethod
     {
         return new PaymentMethod($this->paymentMethod);
+    }
+
+    public function getItems(): Collection
+    {
+        return collect($this->items)->map(function ($item) {
+            return new Item($item);
+        });
     }
 }

@@ -6,6 +6,7 @@ namespace ApiChef\PayHere\Tests;
 
 use ApiChef\PayHere\DTO\Customer;
 use ApiChef\PayHere\DTO\DeliveryDetails;
+use ApiChef\PayHere\DTO\Item;
 use ApiChef\PayHere\DTO\PaymentDetails;
 use ApiChef\PayHere\DTO\PaymentMethod;
 use ApiChef\PayHere\DTO\PriceDetails;
@@ -15,6 +16,7 @@ use ApiChef\PayHere\Payment;
 use ApiChef\PayHere\Tests\App\Product;
 use ApiChef\PayHere\Tests\App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class PaymentTest extends TestCase
@@ -227,7 +229,15 @@ class PaymentTest extends TestCase
                         'card_customer_name' => 'S Perera',
                         'card_no' => '************1234',
                     ],
-                    'items' => null,
+                    'items' => [
+                        [
+                            "name" => "Book reading Subscription",
+                            "quantity" => 1,
+                            "currency" => "LKR",
+                            "unit_price" => 100,
+                            "total_price" => 100
+                        ]
+                    ],
                 ],
             ],
         ];
@@ -294,6 +304,20 @@ class PaymentTest extends TestCase
         $this->assertEquals($paymentMethod['method'], $paymentMethodObject->method);
         $this->assertEquals($paymentMethod['card_customer_name'], $paymentMethodObject->nameOnCard);
         $this->assertEquals($paymentMethod['card_no'], $paymentMethodObject->cardNumber);
+
+        $items = $paymentDetails->getItems();
+
+        $this->assertInstanceOf(Collection::class, $items);
+        $this->assertInstanceOf(Item::class, $items->first());
+        $item = $responseData['data'][0]['items'][0];
+
+        /** @var Item $itemObject */
+        $itemObject = $items->first();
+        $this->assertEquals($item['name'], $itemObject->name);
+        $this->assertEquals($item['quantity'], $itemObject->quantity);
+        $this->assertEquals($item['currency'], $itemObject->currency);
+        $this->assertEquals($item['unit_price'], $itemObject->unitPrice);
+        $this->assertEquals($item['total_price'], $itemObject->totalPrice);
 
         Http::assertSent(function ($request) {
             return $request->hasHeader('Authorization', 'Basic '.base64_encode('test_app_id:test_app_secret')) &&
