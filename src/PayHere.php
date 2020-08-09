@@ -2,7 +2,8 @@
 
 namespace ApiChef\PayHere;
 
-use Illuminate\Auth\AuthenticationException;
+use ApiChef\PayHere\DTO\PaymentDetails;
+use ApiChef\PayHere\Exceptions\AuthorizationException;
 use Illuminate\Support\Facades\Http;
 
 class PayHere
@@ -36,7 +37,18 @@ class PayHere
             return $this;
         }
 
-        throw new AuthenticationException('Unable to authenticate PayHere');
+        throw new AuthorizationException();
+    }
+
+    public function getToken(): string
+    {
+        if ($this->accessToken !== null) {
+            return $this->accessToken;
+        }
+
+        $this->authenticate();
+
+        return $this->accessToken;
     }
 
     private function getUrl(string $uri): string
@@ -44,21 +56,17 @@ class PayHere
         return config('pay-here.base_url').$uri;
     }
 
-    public function getOrderDetails(string $orderId): OrderDetails
+    public function getPaymentDetails(string $orderId): PaymentDetails
     {
-        if ($this->accessToken === null) {
-            $this->authenticate();
-        }
-
         $data = Http::withHeaders([
-            'Authorization' => "Bearer {$this->accessToken}",
+            'Authorization' => "Bearer {$this->getToken()}",
         ])
         ->asJson()
         ->get($this->getUrl(self::URI_RETRIEVAL_ORDER_DETAIL), [
             'order_id' => $orderId,
         ])->json();
 
-        return new OrderDetails($data['status'], $data['msg'], $data['data']);
+        return new PaymentDetails($data);
     }
 
     public function checkoutUrl(): string

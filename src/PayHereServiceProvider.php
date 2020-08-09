@@ -35,7 +35,7 @@ class PayHereServiceProvider extends ServiceProvider
             'pay-here'
         );
 
-        $this->app->bind('pay-here', function (Application $app): PayHere {
+        $this->app->singleton('pay-here', function (Application $app): PayHere {
             return $app->make(PayHere::class);
         });
     }

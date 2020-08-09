@@ -2,6 +2,7 @@
 
 namespace ApiChef\PayHere;
 
+use ApiChef\PayHere\DTO\PaymentDetails;
 use ApiChef\PayHere\Exceptions\UnsupportedCurrencyException;
 use ApiChef\PayHere\Support\Facades\PayHere as PayHereFacades;
 use Illuminate\Database\Eloquent\Builder;
@@ -59,6 +60,13 @@ trait Payable
     public function scopeSuccess(Builder $query): Builder
     {
         return $query->where('status', 2);
+    }
+
+    // helpers
+
+    public function getPaymentDetails(): PaymentDetails
+    {
+        return PayHereFacades::getPaymentDetails($this->getRouteKey());
     }
 
     private static function validateCurrency(string $currency): void

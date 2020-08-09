@@ -3,9 +3,8 @@
 namespace ApiChef\PayHere\Exceptions;
 
 use ApiChef\PayHere\Support\Facades\PayHere;
-use InvalidArgumentException;
 
-class UnsupportedCurrencyException extends InvalidArgumentException
+class UnsupportedCurrencyException extends \Exception
 {
     public function __construct()
     {

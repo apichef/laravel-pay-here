@@ -2,11 +2,11 @@
 
 namespace ApiChef\PayHere\Support\Facades;
 
-use ApiChef\PayHere\OrderDetails;
+use ApiChef\PayHere\DTO\PaymentDetails;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static OrderDetails getOrderDetails(string $orderId)
+ * @method static PaymentDetails getPaymentDetails(string $orderId)
  * @method static string checkoutUrl()
  * @method static array allowedCurrencies()
  *
