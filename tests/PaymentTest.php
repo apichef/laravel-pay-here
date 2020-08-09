@@ -231,12 +231,12 @@ class PaymentTest extends TestCase
                     ],
                     'items' => [
                         [
-                            "name" => "Book reading Subscription",
-                            "quantity" => 1,
-                            "currency" => "LKR",
-                            "unit_price" => 100,
-                            "total_price" => 100
-                        ]
+                            'name' => 'Book reading Subscription',
+                            'quantity' => 1,
+                            'currency' => 'LKR',
+                            'unit_price' => 100,
+                            'total_price' => 100,
+                        ],
                     ],
                 ],
             ],
