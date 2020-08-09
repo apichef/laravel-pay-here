@@ -44,7 +44,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'prefix'   => '',
         ]);
 
-        $app['config']->set('pay-here.business_app_credentials.id', 'app_id');
-        $app['config']->set('pay-here.business_app_credentials.secret', 'app_secret');
+        $app['config']->set('pay-here.merchant_credentials.id', 'test_merchant_id');
+        $app['config']->set('pay-here.merchant_credentials.secret', 'test_merchant_secret');
+
+        $app['config']->set('pay-here.business_app_credentials.id', 'test_app_id');
+        $app['config']->set('pay-here.business_app_credentials.secret', 'test_app_secret');
     }
 }

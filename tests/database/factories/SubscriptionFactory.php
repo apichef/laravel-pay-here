@@ -10,7 +10,6 @@ use Faker\Generator as Faker;
 $factory->define(Subscription::class, function (Faker $faker) {
     return [
         'amount' => 100,
-        'status' => 2,
         'currency' => 'LKR',
         'recurrence' => '1 Month',
         'duration' => 'Forever',
@@ -21,7 +20,6 @@ $factory->define(Subscription::class, function (Faker $faker) {
         'subscribable_id' => factory(Product::class),
         'payer_type' => User::class,
         'payer_id' => factory(User::class),
-        'validated' => true,
     ];
 });
 

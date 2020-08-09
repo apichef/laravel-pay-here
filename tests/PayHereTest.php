@@ -39,7 +39,7 @@ class PayHereTest extends TestCase
         ], $orderDetails->data);
 
         Http::assertSent(function ($request) {
-            return $request->hasHeader('Authorization', 'Basic '.base64_encode('app_id:app_secret')) &&
+            return $request->hasHeader('Authorization', 'Basic '.base64_encode('test_app_id:test_app_secret')) &&
                 $request->url() == 'https://sandbox.payhere.lk/merchant/v1/oauth/token' &&
                 $request['grant_type'] == 'client_credentials';
         });

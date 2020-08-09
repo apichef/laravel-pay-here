@@ -15,9 +15,10 @@ class CreateSubscriptionsTable extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
+            $table->string('payment_id')->nullable()->unique();
+            $table->string('subscription_id')->nullable()->unique();
             $table->float('amount');
             $table->string('currency');
-            $table->string('subscription_id')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->string('recurrence');
             $table->string('duration');

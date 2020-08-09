@@ -174,6 +174,6 @@ class PaymentTest extends TestCase
         /** @var Payment $payment */
         $payment = factory(Payment::class)->create();
 
-        $this->assertEquals($payment->hash, "975470FF0B404455A72E7BEA0C313AB7");
+        $this->assertEquals($payment->hash, "8860B3F13E489ACFBBD3C2B852DB409F");
     }
 }
