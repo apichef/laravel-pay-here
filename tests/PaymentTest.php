@@ -191,45 +191,45 @@ class PaymentTest extends TestCase
         $orderId = $payment->getRouteKey();
 
         $responseData = [
-            "status" => 1,
-            "msg" => "Payments with order_id:LP8006126139_2019-12-06",
-            "data" => [
+            'status' => 1,
+            'msg' => 'Payments with order_id:LP8006126139_2019-12-06',
+            'data' => [
                 [
-                    "payment_id" => 320025071278,
-                    "order_id" => "LP8006126139",
-                    "date" => "2020-01-16 16:21:02",
-                    "description" => "Policy No. LP8006126139 - Outstanding Payment",
-                    "status" => "RECEIVED",
-                    "currency" => "LKR",
-                    "amount" => 50,
-                    "customer" => [
-                        "fist_name" => "Saman",
-                        "last_name" => "Perera",
-                        "email" => "samanperera@gmail.com",
-                        "phone" => "+94771234567",
-                        "delivery_details" => [
-                            "address" => "N0.1, Galle Road",
-                            "city" => "Colombo",
-                            "country" => "Sri Lanka"
-                        ]
+                    'payment_id' => 320025071278,
+                    'order_id' => 'LP8006126139',
+                    'date' => '2020-01-16 16:21:02',
+                    'description' => 'Policy No. LP8006126139 - Outstanding Payment',
+                    'status' => 'RECEIVED',
+                    'currency' => 'LKR',
+                    'amount' => 50,
+                    'customer' => [
+                        'fist_name' => 'Saman',
+                        'last_name' => 'Perera',
+                        'email' => 'samanperera@gmail.com',
+                        'phone' => '+94771234567',
+                        'delivery_details' => [
+                            'address' => 'N0.1, Galle Road',
+                            'city' => 'Colombo',
+                            'country' => 'Sri Lanka',
+                        ],
                     ],
-                    "amount_detail" => [
-                        "currency" => "LKR",
-                        "gross" => 500,
-                        "fee" => 14.5,
-                        "net" => 485.5,
-                        "exchange_rate" => 1,
-                        "exchange_from" => "LKR",
-                        "exchange_to" => "LKR"
+                    'amount_detail' => [
+                        'currency' => 'LKR',
+                        'gross' => 500,
+                        'fee' => 14.5,
+                        'net' => 485.5,
+                        'exchange_rate' => 1,
+                        'exchange_from' => 'LKR',
+                        'exchange_to' => 'LKR',
                     ],
-                    "payment_method" => [
-                        "method" => "VISA",
-                        "card_customer_name" => "S Perera",
-                        "card_no" => "************1234"
+                    'payment_method' => [
+                        'method' => 'VISA',
+                        'card_customer_name' => 'S Perera',
+                        'card_no' => '************1234',
                     ],
-                    "items" => null
-                ]
-            ]
+                    'items' => null,
+                ],
+            ],
         ];
 
         Http::fake([
