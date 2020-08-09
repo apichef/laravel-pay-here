@@ -3,6 +3,7 @@
 namespace ApiChef\PayHere\Tests;
 
 use ApiChef\PayHere\OrderDetails;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Http;
 
 class PayHereTest extends TestCase
@@ -47,5 +48,16 @@ class PayHereTest extends TestCase
             return $request->hasHeader('Authorization', 'Bearer pay-here-token') &&
                 $request->url() == 'https://sandbox.payhere.lk/merchant/v1/payment/search?order_id=order_007';
         });
+    }
+
+    public function test_it_throws_exception_when_pay_here_authentication_failed()
+    {
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([], 401)
+        ]);
+
+        $this->expectException(AuthenticationException::class);
+
+        resolve('pay-here')->getOrderDetails('order_007');
     }
 }
