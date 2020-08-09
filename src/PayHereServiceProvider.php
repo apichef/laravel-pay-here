@@ -55,6 +55,12 @@ class PayHereServiceProvider extends ServiceProvider
 
                 Route::get('/payment-canceled', 'PaymentRedirectController@canceled')
                     ->name('payment-canceled');
+
+                Route::get('/subscription-success', 'SubscriptionRedirectController@success')
+                    ->name('subscription-success');
+
+                Route::get('/subscription-canceled', 'SubscriptionRedirectController@canceled')
+                    ->name('subscription-canceled');
             });
     }
 }
