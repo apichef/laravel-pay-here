@@ -88,6 +88,17 @@ class PayHere
         });
     }
 
+    public function getSubscriptionPayments(Subscription $subscription): Collection
+    {
+        $data = $this->getRequest()
+            ->get($this->getUrl("merchant/v1/subscription/{$subscription->subscription_id}/payments"))
+            ->json();
+
+        return collect($data['data'])->map(function ($subscription) {
+            return new PaymentDetails($subscription);
+        });
+    }
+
     public function checkoutUrl(): string
     {
         return $this->getUrl('pay/checkout');

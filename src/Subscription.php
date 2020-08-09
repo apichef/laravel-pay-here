@@ -4,8 +4,10 @@ namespace ApiChef\PayHere;
 
 use ApiChef\Obfuscate\Obfuscatable;
 use ApiChef\Obfuscate\Support\Facades\Obfuscate;
+use ApiChef\PayHere\Support\Facades\PayHere as PayHereFacade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Collection;
 
 class Subscription extends Model
 {
@@ -51,5 +53,10 @@ class Subscription extends Model
     {
         return Subscription::query()
             ->findOrFail(Obfuscate::decode($orderId));
+    }
+
+    public function getPayments(): Collection
+    {
+        return PayHereFacade::getSubscriptionPayments($this);
     }
 }
