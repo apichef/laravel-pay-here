@@ -2,14 +2,19 @@
 
 namespace ApiChef\PayHere;
 
+use ApiChef\PayHere\DTO\Item;
 use ApiChef\PayHere\DTO\PaymentDetails;
+use ApiChef\PayHere\DTO\SubscriptionDetails;
 use ApiChef\PayHere\Exceptions\AuthorizationException;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class PayHere
 {
     const URI_GENERATE_TOKEN = 'merchant/v1/oauth/token';
     const URI_RETRIEVAL_ORDER_DETAIL = 'merchant/v1/payment/search';
+    const URI_ALL_SUBSCRIPTIONS = 'merchant/v1/subscription';
 
     const CURRENCY_LKR = 'LKR';
     const CURRENCY_USD = 'USD';
@@ -56,17 +61,32 @@ class PayHere
         return config('pay-here.base_url').$uri;
     }
 
+    private function getRequest(): PendingRequest
+    {
+        return Http::withHeaders([
+            'Authorization' => "Bearer {$this->getToken()}",
+        ])->asJson();
+    }
+
     public function getPaymentDetails(string $orderId): PaymentDetails
     {
-        $data = Http::withHeaders([
-            'Authorization' => "Bearer {$this->getToken()}",
-        ])
-        ->asJson()
+        $data = $this->getRequest()
         ->get($this->getUrl(self::URI_RETRIEVAL_ORDER_DETAIL), [
             'order_id' => $orderId,
         ])->json();
 
-        return new PaymentDetails($data);
+        return new PaymentDetails($data['data'][0]);
+    }
+
+    public function getAllSubscriptions(): Collection
+    {
+        $data = $this->getRequest()
+            ->get($this->getUrl(self::URI_ALL_SUBSCRIPTIONS))
+            ->json();
+
+        return collect($data['data'])->map(function ($subscription) {
+            return new SubscriptionDetails($subscription);
+        });
     }
 
     public function checkoutUrl(): string

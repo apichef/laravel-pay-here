@@ -253,7 +253,6 @@ class PaymentTest extends TestCase
         $paymentDetails = $payment->getPaymentDetails();
 
         $this->assertInstanceOf(PaymentDetails::class, $paymentDetails);
-        $this->assertEquals(1, $paymentDetails->statusCode);
         $this->assertEquals($responseData['data'][0], $paymentDetails->data);
 
         $this->assertEquals($responseData['data'][0]['payment_id'], $paymentDetails->paymentId);
