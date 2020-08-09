@@ -2,7 +2,6 @@
 
 namespace ApiChef\PayHere;
 
-use ApiChef\PayHere\DTO\Item;
 use ApiChef\PayHere\DTO\PaymentDetails;
 use ApiChef\PayHere\DTO\SubscriptionDetails;
 use ApiChef\PayHere\Exceptions\AuthorizationException;

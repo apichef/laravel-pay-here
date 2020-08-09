@@ -89,7 +89,7 @@ class PayHereTest extends TestCase
                 'access_token' => 'pay-here-token',
             ]),
 
-            "sandbox.payhere.lk/merchant/v1/subscription" => Http::response($responseData),
+            'sandbox.payhere.lk/merchant/v1/subscription' => Http::response($responseData),
         ]);
 
         $subscriptions = PayHere::getAllSubscriptions();
