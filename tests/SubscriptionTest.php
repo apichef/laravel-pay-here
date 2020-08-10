@@ -6,6 +6,8 @@ namespace ApiChef\PayHere\Tests;
 
 use ApiChef\PayHere\DTO\PaymentDetails;
 use ApiChef\PayHere\Exceptions\InvalidTokenException;
+use ApiChef\PayHere\Exceptions\NotAllowedToCancelException;
+use ApiChef\PayHere\Exceptions\NotEligibleForRetryingException;
 use ApiChef\PayHere\PayHere;
 use ApiChef\PayHere\Subscription;
 use ApiChef\PayHere\Tests\App\Product;
@@ -196,5 +198,183 @@ class SubscriptionTest extends TestCase
         $this->expectExceptionMessage($responseData['error_description']);
 
         $subscription->getPayments();
+    }
+
+    public function test_retry()
+    {
+        /** @var Subscription $subscription */
+        $subscription = factory(Subscription::class)->create();
+        $subscription->subscription_id = 'a_unique_subscription_id';
+        $subscription->save();
+
+        $responseData = [
+            "status" => 1,
+            "msg" => "Recurring payment charged successfully",
+            "data" => null
+        ];
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            'sandbox.payhere.lk/merchant/v1/subscription/retry' => Http::response($responseData),
+        ]);
+
+        $subscription->retry();
+
+        Http::assertSent(function ($request) {
+            return $request->hasHeader('Authorization', 'Basic '.base64_encode('test_app_id:test_app_secret')) &&
+                $request->url() == 'https://sandbox.payhere.lk/merchant/v1/oauth/token' &&
+                $request['grant_type'] == 'client_credentials';
+        });
+
+        Http::assertSent(function ($request) {
+            return $request->hasHeader('Authorization', 'Bearer pay-here-token') &&
+                $request->url() == 'https://sandbox.payhere.lk/merchant/v1/subscription/retry' &&
+                $request['subscription_id'] == 'a_unique_subscription_id';
+        });
+    }
+
+    public function test_it_throws_an_exception_when_not_eligible_for_retrying()
+    {
+        /** @var Subscription $subscription */
+        $subscription = factory(Subscription::class)->create();
+        $subscription->subscription_id = 'a_unique_subscription_id';
+        $subscription->save();
+
+        $responseData = [
+            "status" => -1,
+            "msg" => "Subscription is not eligible for retrying",
+            "data" => null
+        ];
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            'sandbox.payhere.lk/merchant/v1/subscription/retry' => Http::response($responseData, 422),
+        ]);
+
+        $this->expectException(NotEligibleForRetryingException::class);
+        $this->expectExceptionMessage($responseData['msg']);
+
+        $subscription->retry();
+    }
+
+    public function test_it_throws_an_exception_when_retrying_weith_invalid_token()
+    {
+        /** @var Subscription $subscription */
+        $subscription = factory(Subscription::class)->create();
+        $subscription->subscription_id = 'a_unique_subscription_id';
+        $subscription->save();
+
+        $responseData = [
+            'error' => 'invalid_token',
+            'error_description' => 'Invalid access token: e291493a-99a5-4177-9c8b-e8cd18ee9f85',
+        ];
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            'sandbox.payhere.lk/merchant/v1/subscription/retry' => Http::response($responseData, 401),
+        ]);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage($responseData['error_description']);
+
+        $subscription->retry();
+    }
+
+    public function test_cancel()
+    {
+        /** @var Subscription $subscription */
+        $subscription = factory(Subscription::class)->create();
+        $subscription->subscription_id = 'a_unique_subscription_id';
+        $subscription->save();
+
+        $responseData = [
+            "status" => 1,
+            "msg" => "Successfully cancelled the subscription",
+            "data" => null
+        ];
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            'sandbox.payhere.lk/merchant/v1/subscription/cancel' => Http::response($responseData),
+        ]);
+
+        $subscription->cancel();
+
+        Http::assertSent(function ($request) {
+            return $request->hasHeader('Authorization', 'Basic '.base64_encode('test_app_id:test_app_secret')) &&
+                $request->url() == 'https://sandbox.payhere.lk/merchant/v1/oauth/token' &&
+                $request['grant_type'] == 'client_credentials';
+        });
+
+        Http::assertSent(function ($request) {
+            return $request->hasHeader('Authorization', 'Bearer pay-here-token') &&
+                $request->url() == 'https://sandbox.payhere.lk/merchant/v1/subscription/cancel' &&
+                $request['subscription_id'] == 'a_unique_subscription_id';
+        });
+    }
+
+    public function test_it_throws_an_exception_when_not_eligible_for_cancelling()
+    {
+        /** @var Subscription $subscription */
+        $subscription = factory(Subscription::class)->create();
+        $subscription->subscription_id = 'a_unique_subscription_id';
+        $subscription->save();
+
+        $responseData = [
+            "status" => -1,
+            "msg" => "Subscription is already cancelled.",
+            "data" => null
+        ];
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            'sandbox.payhere.lk/merchant/v1/subscription/cancel' => Http::response($responseData, 422),
+        ]);
+
+        $this->expectException(NotAllowedToCancelException::class);
+        $this->expectExceptionMessage($responseData['msg']);
+
+        $subscription->cancel();
+    }
+
+    public function test_it_throws_an_exception_when_cancelling_weith_invalid_token()
+    {
+        /** @var Subscription $subscription */
+        $subscription = factory(Subscription::class)->create();
+        $subscription->subscription_id = 'a_unique_subscription_id';
+        $subscription->save();
+
+        $responseData = [
+            'error' => 'invalid_token',
+            'error_description' => 'Invalid access token: e291493a-99a5-4177-9c8b-e8cd18ee9f85',
+        ];
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            'sandbox.payhere.lk/merchant/v1/subscription/cancel' => Http::response($responseData, 401),
+        ]);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage($responseData['error_description']);
+
+        $subscription->cancel();
     }
 }

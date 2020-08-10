@@ -6,6 +6,8 @@ use ApiChef\PayHere\DTO\PaymentDetails;
 use ApiChef\PayHere\DTO\SubscriptionDetails;
 use ApiChef\PayHere\Exceptions\AuthorizationException;
 use ApiChef\PayHere\Exceptions\InvalidTokenException;
+use ApiChef\PayHere\Exceptions\NotAllowedToCancelException;
+use ApiChef\PayHere\Exceptions\NotEligibleForRetryingException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
@@ -16,6 +18,8 @@ class PayHere
     const URI_GENERATE_TOKEN = 'merchant/v1/oauth/token';
     const URI_RETRIEVAL_ORDER_DETAIL = 'merchant/v1/payment/search';
     const URI_ALL_SUBSCRIPTIONS = 'merchant/v1/subscription';
+    const URI_RETRY_SUBSCRIPTIONS = 'merchant/v1/subscription/retry';
+    const URI_CANCEL_SUBSCRIPTIONS = 'merchant/v1/subscription/cancel';
 
     const CURRENCY_LKR = 'LKR';
     const CURRENCY_USD = 'USD';
@@ -109,6 +113,46 @@ class PayHere
         return collect($response->json()['data'])->map(function ($subscription) {
             return new PaymentDetails($subscription);
         });
+    }
+
+    public function retrySubscription(Subscription $subscription): bool
+    {
+        $response = $this->getRequest()
+            ->post($this->getUrl(self::URI_RETRY_SUBSCRIPTIONS), [
+                'subscription_id' => $subscription->subscription_id,
+            ]);
+
+        $data = $response->json();
+
+        if (! $response->successful()) {
+            if (array_key_exists('status', $data) && $data['status'] === -1) {
+                throw new NotEligibleForRetryingException($data['msg']);
+            }
+
+            $this->handleError($response);
+        }
+
+        return true;
+    }
+
+    public function cancelSubscription(Subscription $subscription): bool
+    {
+        $response = $this->getRequest()
+            ->post($this->getUrl(self::URI_CANCEL_SUBSCRIPTIONS), [
+                'subscription_id' => $subscription->subscription_id,
+            ]);
+
+        $data = $response->json();
+
+        if (! $response->successful()) {
+            if (array_key_exists('status', $data) && $data['status'] === -1) {
+                throw new NotAllowedToCancelException($data['msg']);
+            }
+
+            $this->handleError($response);
+        }
+
+        return true;
     }
 
     public function checkoutUrl(): string

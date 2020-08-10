@@ -59,4 +59,14 @@ class Subscription extends Model
     {
         return PayHereFacade::getSubscriptionPayments($this);
     }
+
+    public function retry(): bool
+    {
+        return PayHereFacade::retrySubscription($this);
+    }
+
+    public function cancel()
+    {
+        return PayHereFacade::cancelSubscription($this);
+    }
 }
