@@ -50,18 +50,6 @@ trait Payable
             ->where('payer_id', $payer->getKey());
     }
 
-    public function scopePaidFor(Builder $query, Model $payable): Builder
-    {
-        return $query
-            ->where('payable_type', get_class($payable))
-            ->where('payable_id', $payable->getKey());
-    }
-
-    public function scopeSuccess(Builder $query): Builder
-    {
-        return $query->where('status', 2);
-    }
-
     // helpers
 
     public function getPaymentDetails(): PaymentDetails

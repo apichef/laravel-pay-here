@@ -4,6 +4,7 @@ namespace ApiChef\PayHere;
 
 use ApiChef\Obfuscate\Obfuscatable;
 use ApiChef\Obfuscate\Support\Facades\Obfuscate;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -21,6 +22,20 @@ class Payment extends Model
     public function payable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    // scopes
+
+    public function scopePaidFor(Builder $query, Model $payable): Builder
+    {
+        return $query
+            ->where('payable_type', get_class($payable))
+            ->where('payable_id', $payable->getKey());
+    }
+
+    public function scopeSuccess(Builder $query): Builder
+    {
+        return $query->where('status', 2);
     }
 
     // helpers

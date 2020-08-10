@@ -18,24 +18,10 @@ $factory->define(Payment::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(Payment::class, 'pending', [
-    'status' => 0,
-    'validated' => null,
-]);
-
-$factory->state(Payment::class, 'canceled', [
-    'status' => -1,
+$factory->state(Payment::class, 'success', [
+    'status' => 2,
 ]);
 
 $factory->state(Payment::class, 'failed', [
     'status' => -2,
-]);
-
-$factory->state(Payment::class, 'chargedback', [
-    'status' => -3,
-]);
-
-$factory->state(Payment::class, 'invalid', [
-    'status' => 0,
-    'validated' => false,
 ]);

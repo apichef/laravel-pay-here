@@ -23,24 +23,7 @@ $factory->define(Subscription::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(Subscription::class, 'pending', [
-    'status' => 0,
-    'validated' => null,
+$factory->state(Subscription::class, 'active', [
+    'recurrence_status' => 0,
 ]);
 
-$factory->state(Subscription::class, 'canceled', [
-    'status' => -1,
-]);
-
-$factory->state(Subscription::class, 'failed', [
-    'status' => -2,
-]);
-
-$factory->state(Subscription::class, 'chargedback', [
-    'status' => -3,
-]);
-
-$factory->state(Subscription::class, 'invalid', [
-    'status' => 0,
-    'validated' => false,
-]);

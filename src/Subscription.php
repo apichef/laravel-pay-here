@@ -5,6 +5,7 @@ namespace ApiChef\PayHere;
 use ApiChef\Obfuscate\Obfuscatable;
 use ApiChef\Obfuscate\Support\Facades\Obfuscate;
 use ApiChef\PayHere\Support\Facades\PayHere as PayHereFacade;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
@@ -23,6 +24,20 @@ class Subscription extends Model
     public function subscribable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    // scopes
+
+    public function scopeSubscribedTo(Builder $query, Model $subscribable): Builder
+    {
+        return $query
+            ->where('subscribable_type', get_class($subscribable))
+            ->where('subscribable_id', $subscribable->getKey());
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('recurrence_status', 0);
     }
 
     // helpers
