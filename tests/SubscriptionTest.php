@@ -208,9 +208,9 @@ class SubscriptionTest extends TestCase
         $subscription->save();
 
         $responseData = [
-            "status" => 1,
-            "msg" => "Recurring payment charged successfully",
-            "data" => null
+            'status' => 1,
+            'msg' => 'Recurring payment charged successfully',
+            'data' => null,
         ];
 
         Http::fake([
@@ -244,9 +244,9 @@ class SubscriptionTest extends TestCase
         $subscription->save();
 
         $responseData = [
-            "status" => -1,
-            "msg" => "Subscription is not eligible for retrying",
-            "data" => null
+            'status' => -1,
+            'msg' => 'Subscription is not eligible for retrying',
+            'data' => null,
         ];
 
         Http::fake([
@@ -297,9 +297,9 @@ class SubscriptionTest extends TestCase
         $subscription->save();
 
         $responseData = [
-            "status" => 1,
-            "msg" => "Successfully cancelled the subscription",
-            "data" => null
+            'status' => 1,
+            'msg' => 'Successfully cancelled the subscription',
+            'data' => null,
         ];
 
         Http::fake([
@@ -333,9 +333,9 @@ class SubscriptionTest extends TestCase
         $subscription->save();
 
         $responseData = [
-            "status" => -1,
-            "msg" => "Subscription is already cancelled.",
-            "data" => null
+            'status' => -1,
+            'msg' => 'Subscription is already cancelled.',
+            'data' => null,
         ];
 
         Http::fake([
