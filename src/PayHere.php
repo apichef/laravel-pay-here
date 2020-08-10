@@ -5,7 +5,9 @@ namespace ApiChef\PayHere;
 use ApiChef\PayHere\DTO\PaymentDetails;
 use ApiChef\PayHere\DTO\SubscriptionDetails;
 use ApiChef\PayHere\Exceptions\AuthorizationException;
+use ApiChef\PayHere\Exceptions\InvalidTokenException;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -69,32 +71,42 @@ class PayHere
 
     public function getPaymentDetails(string $orderId): PaymentDetails
     {
-        $data = $this->getRequest()
-        ->get($this->getUrl(self::URI_RETRIEVAL_ORDER_DETAIL), [
-            'order_id' => $orderId,
-        ])->json();
+        $response = $this->getRequest()
+            ->get($this->getUrl(self::URI_RETRIEVAL_ORDER_DETAIL), [
+                'order_id' => $orderId,
+            ]);
 
-        return new PaymentDetails($data['data'][0]);
+        if (! $response->successful()) {
+            $this->handleError($response);
+        }
+
+        return new PaymentDetails($response->json()['data'][0]);
     }
 
     public function getAllSubscriptions(): Collection
     {
-        $data = $this->getRequest()
-            ->get($this->getUrl(self::URI_ALL_SUBSCRIPTIONS))
-            ->json();
+        $response = $this->getRequest()
+            ->get($this->getUrl(self::URI_ALL_SUBSCRIPTIONS));
 
-        return collect($data['data'])->map(function ($subscription) {
+        if (! $response->successful()) {
+            $this->handleError($response);
+        }
+
+        return collect($response->json()['data'])->map(function ($subscription) {
             return new SubscriptionDetails($subscription);
         });
     }
 
     public function getSubscriptionPayments(Subscription $subscription): Collection
     {
-        $data = $this->getRequest()
-            ->get($this->getUrl("merchant/v1/subscription/{$subscription->subscription_id}/payments"))
-            ->json();
+        $response = $this->getRequest()
+            ->get($this->getUrl("merchant/v1/subscription/{$subscription->subscription_id}/payments"));
 
-        return collect($data['data'])->map(function ($subscription) {
+        if (! $response->successful()) {
+            $this->handleError($response);
+        }
+
+        return collect($response->json()['data'])->map(function ($subscription) {
             return new PaymentDetails($subscription);
         });
     }
@@ -113,5 +125,16 @@ class PayHere
             self::CURRENCY_GBP,
             self::CURRENCY_USD,
         ];
+    }
+
+    private function handleError(Response $response)
+    {
+        $error = $response->json();
+
+        if (array_key_exists('error', $error) && $error['error'] === 'invalid_token') {
+            throw new InvalidTokenException($error['error_description']);
+        }
+
+        throw new \RuntimeException();
     }
 }

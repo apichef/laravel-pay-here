@@ -10,6 +10,7 @@ use ApiChef\PayHere\DTO\Item;
 use ApiChef\PayHere\DTO\PaymentDetails;
 use ApiChef\PayHere\DTO\PaymentMethod;
 use ApiChef\PayHere\DTO\PriceDetails;
+use ApiChef\PayHere\Exceptions\InvalidTokenException;
 use Apichef\PayHere\Exceptions\UnsupportedCurrencyException;
 use ApiChef\PayHere\PayHere;
 use ApiChef\PayHere\Payment;
@@ -328,5 +329,30 @@ class PaymentTest extends TestCase
             return $request->hasHeader('Authorization', 'Bearer pay-here-token') &&
                 $request->url() == "https://sandbox.payhere.lk/merchant/v1/payment/search?order_id={$orderId}";
         });
+    }
+
+    public function test_getPaymentDetails_invalid_token()
+    {
+        /** @var Payment $payment */
+        $payment = factory(Payment::class)->create();
+        $orderId = $payment->getRouteKey();
+
+        $responseData = [
+            "error" => "invalid_token",
+            "error_description" => "Invalid access token: e291493a-99a5-4177-9c8b-e8cd18ee9f85"
+        ];
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            "sandbox.payhere.lk/merchant/v1/payment/search?order_id={$orderId}" => Http::response($responseData, 401),
+        ]);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage($responseData['error_description']);
+
+        $payment->getPaymentDetails();
     }
 }
