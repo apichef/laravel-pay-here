@@ -338,8 +338,8 @@ class PaymentTest extends TestCase
         $orderId = $payment->getRouteKey();
 
         $responseData = [
-            "error" => "invalid_token",
-            "error_description" => "Invalid access token: e291493a-99a5-4177-9c8b-e8cd18ee9f85"
+            'error' => 'invalid_token',
+            'error_description' => 'Invalid access token: e291493a-99a5-4177-9c8b-e8cd18ee9f85',
         ];
 
         Http::fake([
