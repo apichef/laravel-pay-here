@@ -26,4 +26,3 @@ $factory->define(Subscription::class, function (Faker $faker) {
 $factory->state(Subscription::class, 'active', [
     'recurrence_status' => 0,
 ]);
-

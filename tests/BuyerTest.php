@@ -14,7 +14,7 @@ class BuyerTest extends TestCase
         $user = factory(User::class)->create();
 
         /** @var Product $product */
-        $product =  factory(Product::class)->create();
+        $product = factory(Product::class)->create();
 
         factory(Payment::class)->state('success')->create([
             'payable_id' => $product->id,
@@ -38,7 +38,7 @@ class BuyerTest extends TestCase
         $user = factory(User::class)->create();
 
         /** @var Product $product */
-        $product =  factory(Product::class)->create();
+        $product = factory(Product::class)->create();
 
         factory(Payment::class)->create([
             'payable_id' => $product->id,

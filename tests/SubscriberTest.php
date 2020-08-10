@@ -14,7 +14,7 @@ class SubscriberTest extends TestCase
         $user = factory(User::class)->create();
 
         /** @var Product $product */
-        $product =  factory(Product::class)->create();
+        $product = factory(Product::class)->create();
 
         factory(Subscription::class)->state('active')->create([
             'subscribable_id' => $product->id,
@@ -38,7 +38,7 @@ class SubscriberTest extends TestCase
         $user = factory(User::class)->create();
 
         /** @var Product $product */
-        $product =  factory(Product::class)->create();
+        $product = factory(Product::class)->create();
 
         factory(Subscription::class)->create([
             'subscribable_id' => $product->id,
