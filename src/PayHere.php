@@ -8,6 +8,7 @@ use ApiChef\PayHere\Exceptions\AuthorizationException;
 use ApiChef\PayHere\Exceptions\InvalidTokenException;
 use ApiChef\PayHere\Exceptions\NotAllowedToCancelException;
 use ApiChef\PayHere\Exceptions\NotEligibleForRetryingException;
+use ApiChef\PayHere\Exceptions\SuccessfulPaymentNoFoundException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
@@ -84,7 +85,12 @@ class PayHere
             $this->handleError($response);
         }
 
-        return new PaymentDetails($response->json()['data'][0]);
+        $data = $response->json();
+        if (array_key_exists('status', $data) && $data['status'] === -1) {
+            throw new SuccessfulPaymentNoFoundException($data['msg']);
+        }
+
+        return new PaymentDetails($data['data'][0]);
     }
 
     public function getAllSubscriptions(): Collection
@@ -122,14 +128,13 @@ class PayHere
                 'subscription_id' => $subscription->subscription_id,
             ]);
 
-        $data = $response->json();
-
         if (! $response->successful()) {
-            if (array_key_exists('status', $data) && $data['status'] === -1) {
-                throw new NotEligibleForRetryingException($data['msg']);
-            }
-
             $this->handleError($response);
+        }
+
+        $data = $response->json();
+        if (array_key_exists('status', $data) && $data['status'] === -1) {
+            throw new NotEligibleForRetryingException($data['msg']);
         }
 
         return true;
@@ -142,14 +147,13 @@ class PayHere
                 'subscription_id' => $subscription->subscription_id,
             ]);
 
-        $data = $response->json();
-
         if (! $response->successful()) {
-            if (array_key_exists('status', $data) && $data['status'] === -1) {
-                throw new NotAllowedToCancelException($data['msg']);
-            }
-
             $this->handleError($response);
+        }
+
+        $data = $response->json();
+        if (array_key_exists('status', $data) && $data['status'] === -1) {
+            throw new NotAllowedToCancelException($data['msg']);
         }
 
         return true;

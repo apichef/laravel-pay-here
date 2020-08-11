@@ -254,7 +254,7 @@ class SubscriptionTest extends TestCase
                 'access_token' => 'pay-here-token',
             ]),
 
-            'sandbox.payhere.lk/merchant/v1/subscription/retry' => Http::response($responseData, 422),
+            'sandbox.payhere.lk/merchant/v1/subscription/retry' => Http::response($responseData),
         ]);
 
         $this->expectException(NotEligibleForRetryingException::class);
@@ -343,7 +343,7 @@ class SubscriptionTest extends TestCase
                 'access_token' => 'pay-here-token',
             ]),
 
-            'sandbox.payhere.lk/merchant/v1/subscription/cancel' => Http::response($responseData, 422),
+            'sandbox.payhere.lk/merchant/v1/subscription/cancel' => Http::response($responseData),
         ]);
 
         $this->expectException(NotAllowedToCancelException::class);

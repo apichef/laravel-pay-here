@@ -11,6 +11,7 @@ use ApiChef\PayHere\DTO\PaymentDetails;
 use ApiChef\PayHere\DTO\PaymentMethod;
 use ApiChef\PayHere\DTO\PriceDetails;
 use ApiChef\PayHere\Exceptions\InvalidTokenException;
+use ApiChef\PayHere\Exceptions\SuccessfulPaymentNoFoundException;
 use Apichef\PayHere\Exceptions\UnsupportedCurrencyException;
 use ApiChef\PayHere\PayHere;
 use ApiChef\PayHere\Payment;
@@ -352,6 +353,32 @@ class PaymentTest extends TestCase
 
         $this->expectException(InvalidTokenException::class);
         $this->expectExceptionMessage($responseData['error_description']);
+
+        $payment->getPaymentDetails();
+    }
+
+    public function test_getPaymentDetails_invalid_order_id_or_order_id_which_does_not_have_successful_payment()
+    {
+        /** @var Payment $payment */
+        $payment = factory(Payment::class)->create();
+        $orderId = $payment->getRouteKey();
+
+        $responseData = [
+            "status" => -1,
+            "msg" => "No payments found",
+            "data" => null
+        ];
+
+        Http::fake([
+            'sandbox.payhere.lk/merchant/v1/oauth/token' => Http::response([
+                'access_token' => 'pay-here-token',
+            ]),
+
+            "sandbox.payhere.lk/merchant/v1/payment/search?order_id={$orderId}" => Http::response($responseData),
+        ]);
+
+        $this->expectException(SuccessfulPaymentNoFoundException::class);
+        $this->expectExceptionMessage($responseData['msg']);
 
         $payment->getPaymentDetails();
     }
