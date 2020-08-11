@@ -364,9 +364,9 @@ class PaymentTest extends TestCase
         $orderId = $payment->getRouteKey();
 
         $responseData = [
-            "status" => -1,
-            "msg" => "No payments found",
-            "data" => null
+            'status' => -1,
+            'msg' => 'No payments found',
+            'data' => null,
         ];
 
         Http::fake([
