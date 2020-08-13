@@ -8,17 +8,21 @@ use Illuminate\View\Component;
 
 class CheckoutForm extends Component
 {
-    public Model $payable;
-    public string $merchantId;
-    public string $formAction;
-    public string $formClass;
+    public $payable;
+    public $merchantId;
+    public $formAction;
+    public $formClass;
+    public $successUrl;
+    public $cancelledUrl;
 
-    public function __construct(Model $payable, string $formClass = '')
+    public function __construct(Model $payable, string $successUrl, string $cancelledUrl, string $formClass = '')
     {
         $this->merchantId = config('pay-here.merchant_credentials.id');
         $this->formAction = PayHere::checkoutUrl();
         $this->formClass = $formClass;
         $this->payable = $payable;
+        $this->successUrl = $successUrl;
+        $this->cancelledUrl = $cancelledUrl;
     }
 
     public function render()

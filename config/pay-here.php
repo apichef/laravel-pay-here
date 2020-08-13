@@ -56,43 +56,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Response Route Names
-    |--------------------------------------------------------------------------
-    |
-    | This is where you can config which route to redirect on checkout /
-    | subscription success or canceled.
-    |
-    | PayHere package will call the route with payment/subscription id,
-    | so you can bind the payment model to the route.
-    |
-    | e.g.
-    | Route::get('payment-success/{payment}', 'PaymentController@success')
-    |   ->name('payment_success');
-    |
-    | Route::get('payment_canceled/{payment}', 'PaymentController@cancel')
-    |   ->name('payment_canceled');
-    |
-    | Route::get('subscription-success/{subscription}', 'SubscriptionController@success')
-    |   ->name('subscription_success');
-    |
-    | Route::get('subscription_canceled/{subscription}', 'SubscriptionController@cancel')
-    |   ->name('subscription_canceled');
-    |
-    | NOTE: Updating the payment status is being handled by the PayHere package,
-    | you will have to perform the necessary changes to your data, such as
-    | updating the inventory, enrolling to the sold item.
-    |
-    */
-
-    'routes_name' => [
-        'payment_success' => 'payment_success',
-        'payment_canceled' => 'payment_canceled',
-        'subscription_success' => 'subscription_success',
-        'subscription_canceled' => 'subscription_canceled',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | PayHere Database Connection
     |--------------------------------------------------------------------------
     |
