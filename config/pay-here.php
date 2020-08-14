@@ -25,8 +25,6 @@ return [
     | To obtain a merchant secret, you need to add a domain to allowed
     | domains/apps.
     |
-    | https://payhere.lk/api-&-mobile-sdk/payhere-checkout#prerequisites
-    |
     */
 
     'merchant_credentials' => [
@@ -43,9 +41,9 @@ return [
     | the link bellow and follow the instruction to obtain business app id
     | and a secret.
     |
-    | NOTE: Tick the permission 'Payment Retrieval API'
-    |
-    | https://payhere.lk/api-&-mobile-sdk/payhere-retrieval#1-create-a-business-app
+    | NOTE: Tick the following permission
+    | - Payment Retrieval API
+    | - Subscription Management API
     |
     */
 

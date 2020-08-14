@@ -31,9 +31,7 @@ php artisan vendor:publish --provider="ApiChef\PayHere\PayHereServiceProvider" -
 
 ## Usage
 
-``` php
-soon. still alpha
-```
+[Documentation](https://milroy.me/laravel-pay-here)
 
 ## Testing
 
