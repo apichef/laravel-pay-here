@@ -67,7 +67,7 @@ class Subscription extends Model
     public static function findByOrderId($orderId): self
     {
         return Subscription::query()
-            ->findOrFail(Obfuscate::decode($orderId));
+            ->findOrFail(Obfuscate::decode((int) $orderId));
     }
 
     public function getPayments(): Collection

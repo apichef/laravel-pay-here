@@ -66,6 +66,6 @@ class Payment extends Model
     public static function findByOrderId($orderId): self
     {
         return Payment::query()
-            ->findOrFail(Obfuscate::decode($orderId));
+            ->findOrFail(Obfuscate::decode((int) $orderId));
     }
 }
