@@ -49,18 +49,6 @@ class PayHereServiceProvider extends ServiceProvider
             ->group(function () {
                 Route::post('/notify', 'PaymentNotificationController')
                     ->name('notify');
-
-                Route::get('/payment-success', 'PaymentRedirectController@success')
-                    ->name('payment-success');
-
-                Route::get('/payment-canceled', 'PaymentRedirectController@canceled')
-                    ->name('payment-canceled');
-
-                Route::get('/subscription-success', 'SubscriptionRedirectController@success')
-                    ->name('subscription-success');
-
-                Route::get('/subscription-canceled', 'SubscriptionRedirectController@canceled')
-                    ->name('subscription-canceled');
             });
     }
 }
