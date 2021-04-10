@@ -15,7 +15,7 @@ class CheckoutForm extends Component
     public string $formClass;
     public string $successUrl;
     public string $cancelledUrl;
-    private Items $items;
+    public Items $items;
 
     public function __construct(
         Model $payable,
