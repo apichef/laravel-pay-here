@@ -7,9 +7,18 @@
     <input type="hidden" name="hash" value="{{ $payable->hash }}">
     <input type="hidden" name="return_url" value="{{ $successUrl }}">
     <input type="hidden" name="cancel_url" value="{{ $cancelledUrl }}">
+
     @if($payable instanceof \ApiChef\PayHere\Subscription)
         <input type="hidden" name="recurrence" value="{{ $payable->recurrence }}">
         <input type="hidden" name="duration" value="{{ $payable->duration }}">
     @endif
+
+    @foreach($items as $item)
+        <input type="hidden" name="item_name_{{ $loop->iteration }}" value="{{ $item->getName() }}">
+        <input type="hidden" name="item_number_{{ $loop->iteration }}" value="{{ $item->getId() }}">
+        <input type="hidden" name="amount_{{ $loop->iteration }}" value="{{ $item->getAmount() }}">
+        <input type="hidden" name="quantity_{{ $loop->iteration }}" value="{{ $item->getQuantity() }}">
+    @endforeach
+
     {{ $slot }}
 </form>
