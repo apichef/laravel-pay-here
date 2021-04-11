@@ -17,16 +17,24 @@ You can install the package via composer:
 composer require apichef/laravel-pay-here
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --provider="ApiChef\PayHere\PayHereServiceProvider" --tag="migrations"
-php artisan migrate
-```
-
 You can publish the config file with:
 ```bash
 php artisan vendor:publish --provider="ApiChef\PayHere\PayHereServiceProvider" --tag="config"
+```
+
+If your application accepting one time payments, you need to publish payments migration:
+```bash
+php artisan vendor:publish --provider="ApiChef\PayHere\PayHereServiceProvider" --tag="migrations:payments"
+```
+
+If your application supporting subscriptions, you need to publish subscriptions migration:
+```bash
+php artisan vendor:publish --provider="ApiChef\PayHere\PayHereServiceProvider" --tag="migrations:subscriptions"
+```
+
+Migrate
+```bash
+php artisan migrate
 ```
 
 ## Usage

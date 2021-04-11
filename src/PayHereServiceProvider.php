@@ -24,8 +24,12 @@ class PayHereServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../database/migrations/' => database_path('migrations'),
-        ], 'migrations');
+            __DIR__.'/../database/migrations/payment/' => database_path('migrations'),
+        ], 'migrations:payments');
+
+        $this->publishes([
+            __DIR__.'/../database/migrations/subscription/' => database_path('migrations'),
+        ], 'migrations:subscriptions');
     }
 
     public function register(): void

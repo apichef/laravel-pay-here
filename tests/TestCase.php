@@ -16,7 +16,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations/payment');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations/subscription');
         $this->withFactories(__DIR__.'/database/factories');
         $this->registerRoutes();
     }
