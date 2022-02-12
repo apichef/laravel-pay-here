@@ -17,6 +17,14 @@ You can install the package via composer:
 composer require apichef/laravel-pay-here
 ```
 
+| Laravel | Minimum Versions |
+|---------|:----------------:|
+| 6.x     |     `^1.0.0`     |
+| 7.x     |     `^2.0.0`     |
+| 8.x     |     `^2.0.0`     |
+| 9.x     |     `^3.0.0`     |
+
+
 You can publish the config file with:
 ```bash
 php artisan vendor:publish --provider="ApiChef\PayHere\PayHereServiceProvider" --tag="config"
