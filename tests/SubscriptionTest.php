@@ -18,8 +18,8 @@ class SubscriptionTest extends TestCase
 {
     public function test_make()
     {
-        $tom = factory(User::class)->create();
-        $theBook = factory(Product::class)->create();
+        $tom = User::factory()->create();
+        $theBook = Product::factory()->create();
         $price = 20;
         $currency = PayHere::CURRENCY_USD;
 
@@ -36,7 +36,7 @@ class SubscriptionTest extends TestCase
     public function test_findByOrderId()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
 
         $this->assertEquals($subscription->id, Subscription::findByOrderId($subscription->getRouteKey())->id);
     }
@@ -144,7 +144,7 @@ class SubscriptionTest extends TestCase
         ];
 
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
         $subscription->subscription_id = 'a_unique_subscription_id';
         $subscription->save();
 
@@ -176,7 +176,7 @@ class SubscriptionTest extends TestCase
     public function test_getSubscriptionPayments_invalid_token()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
         $subscription->subscription_id = 'a_unique_subscription_id';
         $subscription->save();
 
@@ -203,7 +203,7 @@ class SubscriptionTest extends TestCase
     public function test_retry()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
         $subscription->subscription_id = 'a_unique_subscription_id';
         $subscription->save();
 
@@ -239,7 +239,7 @@ class SubscriptionTest extends TestCase
     public function test_it_throws_an_exception_when_not_eligible_for_retrying()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
         $subscription->subscription_id = 'a_unique_subscription_id';
         $subscription->save();
 
@@ -266,7 +266,7 @@ class SubscriptionTest extends TestCase
     public function test_it_throws_an_exception_when_retrying_weith_invalid_token()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
         $subscription->subscription_id = 'a_unique_subscription_id';
         $subscription->save();
 
@@ -292,7 +292,7 @@ class SubscriptionTest extends TestCase
     public function test_cancel()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
         $subscription->subscription_id = 'a_unique_subscription_id';
         $subscription->save();
 
@@ -328,7 +328,7 @@ class SubscriptionTest extends TestCase
     public function test_it_throws_an_exception_when_not_eligible_for_cancelling()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
         $subscription->subscription_id = 'a_unique_subscription_id';
         $subscription->save();
 
@@ -355,7 +355,7 @@ class SubscriptionTest extends TestCase
     public function test_it_throws_an_exception_when_cancelling_weith_invalid_token()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
         $subscription->subscription_id = 'a_unique_subscription_id';
         $subscription->save();
 

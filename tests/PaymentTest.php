@@ -26,7 +26,7 @@ class PaymentTest extends TestCase
     public function test_payable()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
 
         $this->assertInstanceOf(Product::class, $payment->payable);
     }
@@ -34,15 +34,15 @@ class PaymentTest extends TestCase
     public function test_payer()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
 
         $this->assertInstanceOf(User::class, $payment->payer);
     }
 
     public function test_make()
     {
-        $tom = factory(User::class)->create();
-        $theBook = factory(Product::class)->create();
+        $tom = User::factory()->create();
+        $theBook = Product::factory()->create();
         $price = 20;
         $currency = PayHere::CURRENCY_USD;
 
@@ -58,8 +58,8 @@ class PaymentTest extends TestCase
 
     public function test_make_currency_defaults_to_LKR()
     {
-        $tom = factory(User::class)->create();
-        $theBook = factory(Product::class)->create();
+        $tom = User::factory()->create();
+        $theBook = Product::factory()->create();
         $price = 20;
 
         $payment = Payment::make($theBook, $tom, $price);
@@ -69,8 +69,8 @@ class PaymentTest extends TestCase
 
     public function test_make_throws_an_exception_when_the_given_currency_is_not_supported()
     {
-        $tom = factory(User::class)->create();
-        $theBook = factory(Product::class)->create();
+        $tom = User::factory()->create();
+        $theBook = Product::factory()->create();
         $price = 20;
 
         $this->expectException(UnsupportedCurrencyException::class);
@@ -84,7 +84,7 @@ class PaymentTest extends TestCase
     public function test_isPaid($status, $paid)
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create([
+        $payment = Payment::factory()->create([
             'status' => $status,
         ]);
 
@@ -94,12 +94,12 @@ class PaymentTest extends TestCase
     public function test_scopePaidBy()
     {
         // payments of other users
-        factory(Payment::class, 3)->create();
+        Payment::factory(3)->create();
 
-        $tom = factory(User::class)->create();
+        $tom = User::factory()->create();
 
         // payments of other $tom
-        factory(Payment::class, 2)
+        Payment::factory(2)
             ->create(['payer_id' => $tom->id]);
 
         $paymentsOfTom = Payment::paidBy($tom)->get();
@@ -111,12 +111,12 @@ class PaymentTest extends TestCase
     public function test_scopePaidFor()
     {
         // payments of other products
-        factory(Payment::class, 3)->create();
+        Payment::factory(3)->create();
 
-        $theBook = factory(Product::class)->create();
+        $theBook = Product::factory()->create();
 
         // payments of $theBook
-        factory(Payment::class, 2)
+        Payment::factory(2)
             ->create(['payable_id' => $theBook->id]);
 
         $paymentsOfTom = Payment::paidFor($theBook)->get();
@@ -130,7 +130,7 @@ class PaymentTest extends TestCase
      */
     public function test_scopeSuccess($status, $success)
     {
-        factory(Payment::class, 3)->create([
+        Payment::factory(3)->create([
             'status' => $status,
         ]);
 
@@ -151,7 +151,7 @@ class PaymentTest extends TestCase
     public function test_findByOrderId()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
 
         $this->assertEquals($payment->id, Payment::findByOrderId($payment->getRouteKey())->id);
     }
@@ -161,7 +161,7 @@ class PaymentTest extends TestCase
      */
     public function test_getAmountAttribute($value, $rounded)
     {
-        $payment = factory(Payment::class)->create([
+        $payment = Payment::factory()->create([
             'amount' => $value,
         ]);
 
@@ -183,7 +183,7 @@ class PaymentTest extends TestCase
     public function test_hash_accessor()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
 
         $this->assertEquals($payment->hash, '8860B3F13E489ACFBBD3C2B852DB409F');
     }
@@ -191,7 +191,7 @@ class PaymentTest extends TestCase
     public function test_getPaymentDetails()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
         $orderId = $payment->getRouteKey();
 
         $responseData = [
@@ -335,7 +335,7 @@ class PaymentTest extends TestCase
     public function test_getPaymentDetails_invalid_token()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
         $orderId = $payment->getRouteKey();
 
         $responseData = [
@@ -360,7 +360,7 @@ class PaymentTest extends TestCase
     public function test_getPaymentDetails_invalid_order_id_or_order_id_which_does_not_have_successful_payment()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
         $orderId = $payment->getRouteKey();
 
         $responseData = [

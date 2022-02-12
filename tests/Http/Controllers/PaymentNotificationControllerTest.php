@@ -11,7 +11,7 @@ class PaymentNotificationControllerTest extends TestCase
     public function test_it_updated_payment()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
 
         $data = [
             'merchant_id' => 'test_merchant_id',
@@ -46,7 +46,7 @@ class PaymentNotificationControllerTest extends TestCase
     public function test_it_updated_subscription()
     {
         /** @var Subscription $subscription */
-        $subscription = factory(Subscription::class)->create();
+        $subscription = Subscription::factory()->create();
 
         $data = [
             'merchant_id' => 'test_merchant_id',
@@ -97,7 +97,7 @@ class PaymentNotificationControllerTest extends TestCase
     public function test_it_sets_validated_to_false_when_the_hash_dose_not_match()
     {
         /** @var Payment $payment */
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
 
         $data = [
             'merchant_id' => 'test_merchant_id',
