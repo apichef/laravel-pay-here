@@ -1,13 +1,19 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use ApiChef\PayHere\Tests\App\Product;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Product::class, function (Faker $faker) {
-    return [
-        'name' => $faker->words(2, true),
-        'price' => 100,
-    ];
-});
+class ProductFactory extends Factory
+{
+    protected $model = Product::class;
+
+    public function definition(): array
+    {
+        return [
+            'name' => $this->faker->words(2, true),
+            'price' => 100,
+        ];
+    }
+}

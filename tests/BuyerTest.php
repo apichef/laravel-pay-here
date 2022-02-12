@@ -11,12 +11,12 @@ class BuyerTest extends TestCase
     public function test_hasBought()
     {
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         /** @var Product $product */
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
 
-        factory(Payment::class)->state('success')->create([
+        Payment::factory()->success()->create([
             'payable_id' => $product->id,
             'payer_id' => $user->id,
         ]);
@@ -24,7 +24,7 @@ class BuyerTest extends TestCase
         $this->assertTrue($user->hasBought($product));
 
         /** @var User $anotherUser */
-        $anotherUser = factory(User::class)->create();
+        $anotherUser = User::factory()->create();
 
         $this->assertFalse($anotherUser->hasBought($product));
     }
@@ -35,12 +35,12 @@ class BuyerTest extends TestCase
     public function test_hasBought_returns_true_only_when_the_status_is_2($status, $hasBought)
     {
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         /** @var Product $product */
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
 
-        factory(Payment::class)->create([
+        Payment::factory()->create([
             'payable_id' => $product->id,
             'payer_id' => $user->id,
             'status' => $status,

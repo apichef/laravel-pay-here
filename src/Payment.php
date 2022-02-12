@@ -4,7 +4,9 @@ namespace ApiChef\PayHere;
 
 use ApiChef\Obfuscate\Obfuscatable;
 use ApiChef\Obfuscate\Support\Facades\Obfuscate;
+use Database\Factories\PaymentFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -12,10 +14,18 @@ class Payment extends Model
 {
     use Obfuscatable;
     use Payable;
+    use HasFactory;
 
     protected $casts = [
         'summary' => 'array',
     ];
+
+    // overrides
+
+    protected static function newFactory(): PaymentFactory
+    {
+        return PaymentFactory::new();
+    }
 
     // relationships
 

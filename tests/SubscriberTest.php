@@ -11,12 +11,12 @@ class SubscriberTest extends TestCase
     public function test_hasActiveSubscription()
     {
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         /** @var Product $product */
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
 
-        factory(Subscription::class)->state('active')->create([
+        Subscription::factory()->active()->create([
             'subscribable_id' => $product->id,
             'payer_id' => $user->id,
         ]);
@@ -24,7 +24,7 @@ class SubscriberTest extends TestCase
         $this->assertTrue($user->hasActiveSubscription($product));
 
         /** @var User $anotherUser */
-        $anotherUser = factory(User::class)->create();
+        $anotherUser = User::factory()->create();
 
         $this->assertFalse($anotherUser->hasActiveSubscription($product));
     }
@@ -35,12 +35,12 @@ class SubscriberTest extends TestCase
     public function test_hasActiveSubscription_returns_true_only_when_the_status_is_2($status, $isSubscriptionActive)
     {
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         /** @var Product $product */
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
 
-        factory(Subscription::class)->create([
+        Subscription::factory()->create([
             'subscribable_id' => $product->id,
             'payer_id' => $user->id,
             'recurrence_status' => $status,
