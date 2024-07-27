@@ -137,7 +137,7 @@ class PaymentTest extends TestCase
         $this->assertEquals($success, Payment::success()->get()->isNotEmpty());
     }
 
-    public function paymentStatusAndSuccess(): array
+    public static function paymentStatusAndSuccess(): array
     {
         return [
             [2, true],
@@ -168,7 +168,7 @@ class PaymentTest extends TestCase
         $this->assertEquals($rounded, $payment->amount);
     }
 
-    public function paymentAmounts(): array
+    public static function paymentAmounts(): array
     {
         return [
             [1, 1.00],
