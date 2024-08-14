@@ -3,8 +3,6 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-ci]][link-ci]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 ApiChef PayHere provides an expressive, fluent interface to PayHere’s payment services.
@@ -85,8 +83,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [link-packagist]: https://packagist.org/packages/apichef/laravel-pay-here
 [link-ci]: https://github.com/apichef/laravel-pay-here/actions
-[link-scrutinizer]: https://scrutinizer-ci.com/g/apichef/laravel-pay-here/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/apichef/laravel-pay-here
 [link-downloads]: https://packagist.org/packages/apichef/laravel-pay-here
 [link-author]: https://github.com/milroyfraser
 [link-contributors]: ../../contributors

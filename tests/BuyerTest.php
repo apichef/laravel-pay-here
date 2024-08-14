@@ -5,6 +5,7 @@ namespace ApiChef\PayHere\Tests;
 use ApiChef\PayHere\Payment;
 use ApiChef\PayHere\Tests\App\Product;
 use ApiChef\PayHere\Tests\App\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class BuyerTest extends TestCase
 {
@@ -49,7 +50,7 @@ class BuyerTest extends TestCase
         $this->assertEquals($hasBought, $user->hasBought($product));
     }
 
-    public function paymentStatuses(): array
+    public static function paymentStatuses(): array
     {
         return [
             [2, true],

@@ -49,7 +49,7 @@ class SubscriberTest extends TestCase
         $this->assertEquals($isSubscriptionActive, $user->hasActiveSubscription($product));
     }
 
-    public function subscriptionStatuses(): array
+    public static function subscriptionStatuses(): array
     {
         return [
             [0, true],
